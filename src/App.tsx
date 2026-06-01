@@ -170,9 +170,12 @@ export default function App() {
         
         {/* Homepage Header */}
         <header className="px-6 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
-          <div className="flex items-center gap-1.5 cursor-pointer">
-            <span className="text-3xl animate-bounce">✨</span>
-            <span className="text-2xl font-kid font-bold text-primary-purple">CurioKids</span>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5 cursor-pointer">
+              <span className="text-3xl animate-bounce">✨</span>
+              <span className="text-2xl font-kid font-bold text-primary-purple">CurioKids</span>
+            </div>
+            <span className="text-[10px] font-bold text-slate-400 pl-8">Made by Aarti Gurjar</span>
           </div>
 
           <button

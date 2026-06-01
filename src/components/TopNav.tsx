@@ -33,11 +33,14 @@ export default function TopNav({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap md:flex-nowrap">
         
         {/* Left Side Logo */}
-        <div className="flex items-center gap-1.5 cursor-pointer select-none" onClick={() => setActiveTab('gk')}>
-          <span className="text-xl animate-bounce">✨</span>
-          <span className="text-2xl font-kid font-bold text-primary-purple">
-            CurioKids
-          </span>
+        <div className="flex flex-col select-none cursor-pointer" onClick={() => setActiveTab('gk')}>
+          <div className="flex items-center gap-1.5">
+            <span className="text-xl animate-bounce">✨</span>
+            <span className="text-2xl font-kid font-bold text-primary-purple">
+              CurioKids
+            </span>
+          </div>
+          <span className="text-[9px] font-bold text-slate-400 pl-6">Made by Aarti Gurjar</span>
         </div>
 
         {/* Center Tabs exactly matching screenshot */}
