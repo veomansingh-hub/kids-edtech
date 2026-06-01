@@ -1,0 +1,667 @@
+/* CSS Styles for CurioKids Club & Credit Card Checkout */
+
+.paywall-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.paywall-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.premium-header-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.paywall-title {
+  font-size: 2.6rem;
+  margin-bottom: 8px;
+}
+
+.paywall-subtitle {
+  color: #555;
+  font-size: 1.15rem;
+  max-width: 700px;
+  margin: 0 auto 24px auto;
+}
+
+/* Billing Toggle Switch */
+.billing-switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.billing-label {
+  font-family: var(--font-kid);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #777;
+  transition: var(--transition-normal);
+}
+
+.billing-label.active {
+  color: var(--color-purple);
+}
+
+.billing-toggle {
+  width: 60px;
+  height: 32px;
+  background: #cbd5e1;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition-normal);
+  padding: 3px;
+}
+
+.billing-toggle.toggled {
+  background: var(--color-purple);
+}
+
+.toggle-knob {
+  width: 26px;
+  height: 26px;
+  background: white;
+  border-radius: 50%;
+  display: block;
+  transition: var(--transition-bouncy);
+  transform: translateX(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.billing-toggle.toggled .toggle-knob {
+  transform: translateX(28px);
+}
+
+.save-tag {
+  background: var(--color-green);
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-left: 4px;
+}
+
+/* Pricing Grid */
+.pricing-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  max-width: 900px;
+  margin: 0 auto 48px auto;
+}
+
+.plan-card {
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  border-top: 8px solid #cbd5e1;
+  position: relative;
+}
+
+.price-display {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 16px 0;
+}
+
+.price-display .amount {
+  font-family: var(--font-kid);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.price-display .period {
+  color: #666;
+  font-weight: 600;
+}
+
+.plan-summary {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  height: 40px;
+}
+
+.plan-features {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+  text-align: left;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 20px;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 550;
+}
+
+.plan-features li.disabled {
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+.btn-plan {
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Premium Recommended styling */
+.plan-card.premium-selected {
+  border-top: 8px solid var(--color-purple);
+  background: white;
+  border: 2px solid rgba(157, 78, 221, 0.3);
+  border-top: 8px solid var(--color-purple);
+  box-shadow: var(--shadow-premium);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -16px;
+  background: linear-gradient(135deg, var(--color-yellow), var(--color-orange));
+  color: white;
+  font-family: var(--font-kid);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+/* SOFT-EDGE PREVIEW DIVIDER (IMPLEMENTING WEBMCP/MODERN WEB GUIDANCE PATTERN) */
+.premium-sneak-peek-header {
+  margin: 64px auto 24px auto;
+  text-align: center;
+  font-family: var(--font-kid);
+  color: var(--color-purple);
+}
+
+.soft-edge-fade-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 24px;
+  
+  /* Apply Modern Web Guidance standard transparency masking */
+  -webkit-mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
+}
+
+.preview-locked-content {
+  filter: blur(0.5px);
+}
+
+.locked-badge-pill {
+  display: inline-block;
+  background: #fee2e2;
+  color: #ef4444;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.preview-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .preview-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.preview-mini-card {
+  background: #f8f9fa;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed rgba(0,0,0,0.1);
+}
+
+.mini-card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.preview-mini-card h4 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.preview-mini-card p {
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 1.3;
+}
+
+/* Fallback for mask image using overlay */
+@supports (not (mask-image: linear-gradient(to bottom, black, transparent))) and (not (-webkit-mask-image: linear-gradient(to bottom, black, transparent))) {
+  .soft-edge-fade-container {
+    position: relative;
+  }
+  .soft-edge-fade-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none;
+  }
+}
+
+/* CHECKOUT SCREEN STYLING */
+.checkout-screen-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.btn-back-pricing {
+  background: none;
+  border: none;
+  font-family: var(--font-kid);
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  margin-bottom: 24px;
+  color: #666;
+}
+
+.btn-back-pricing:hover {
+  color: var(--color-purple);
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 3D CREDIT CARD VISUALIZER */
+.visual-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.credit-card-3d {
+  width: 320px;
+  height: 200px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  border-radius: 16px;
+}
+
+.credit-card-3d.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face-side {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  padding: 24px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Metallic gold design */
+.front-side {
+  background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa771c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  transform: rotateY(0deg);
+}
+
+.back-side {
+  background: linear-gradient(135deg, #aa771c 0%, #d4af37 50%, #aa771c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  transform: rotateY(180deg);
+  padding: 16px 0;
+}
+
+.card-front-decor {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-logo {
+  font-family: var(--font-kid);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.card-chip {
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(135deg, #e6d8a3, #b59b58);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.3);
+}
+
+.card-visual-number {
+  font-family: monospace;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.card-visual-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-col .label {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1px;
+}
+
+.details-col .val {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.card-magnetic-strip {
+  height: 40px;
+  background: #111;
+  width: 100%;
+}
+
+.card-signature-box {
+  background: white;
+  height: 38px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: 4px;
+}
+
+.signature-line {
+  font-family: 'Brush Script MT', cursive, sans-serif;
+  color: #1b4f72;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.cvc-number-visual {
+  color: black;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.card-back-decor {
+  font-size: 0.75rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  opacity: 0.8;
+}
+
+.card-flip-hint {
+  font-size: 0.85rem;
+  color: #777;
+  font-weight: 550;
+}
+
+/* BILLING INPUT FORM */
+.checkout-form-card {
+  padding: 32px;
+  border-radius: var(--radius-lg);
+}
+
+.billing-form h3 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.checkout-price-pill {
+  background: hsl(268, 85%, 96%);
+  color: var(--color-purple);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  margin-bottom: 24px;
+  display: inline-block;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: var(--transition-normal);
+}
+
+.form-group input:focus {
+  border-color: var(--color-purple);
+  outline: none;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-decor-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+}
+
+.input-with-icon input {
+  padding-left: 44px;
+  width: 100%;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.checkout-security-notice {
+  font-size: 0.8rem;
+  color: #666;
+  background: #f1f2f6;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.btn-pay-now {
+  width: 100%;
+}
+
+/* LOADER COMPONENT FOR PROCESSING STATE */
+.processing-payment-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+  text-align: center;
+}
+
+.magical-spinner {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.proc-title {
+  font-size: 1.4rem;
+  color: var(--color-purple);
+  margin-bottom: 8px;
+}
+
+.proc-step-container {
+  width: 100%;
+  max-width: 320px;
+}
+
+.proc-active-step {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 16px;
+  min-height: 48px;
+}
+
+.progress-loader-bar {
+  height: 8px;
+  background: #f1f2f6;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  width: 100%;
+}
+
+.loading-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--color-purple), var(--color-pink));
+  transition: width 0.8s ease-in-out;
+}
+
+/* SUCCESS SCREEN */
+.success-thank-you {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  text-align: center;
+  border-top: 8px solid var(--color-green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.success-badge-gold {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-yellow), var(--color-orange));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  animation: bounce 2.5s infinite;
+}
+
+.success-thank-you h2 {
+  font-size: 1.8rem;
+  color: var(--color-green);
+}
+
+.unlocked-items-summary {
+  background: #f8f9fa;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  width: 100%;
+  text-align: left;
+}
+
+.unlocked-items-summary h3 {
+  font-size: 0.95rem;
+  color: var(--color-purple);
+  margin-bottom: 12px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.success-benefits-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.success-benefits-list li {
+  font-size: 0.9rem;
+  font-weight: 550;
+  line-height: 1.4;
+  color: #444;
+}
+
+.btn-success-start-play {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 12px;
+}

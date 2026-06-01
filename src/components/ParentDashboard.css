@@ -1,0 +1,509 @@
+/* CSS Styles for CurioKids Parent Portal & Analytics */
+
+.parent-gate-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 24px;
+  min-height: calc(100vh - 180px);
+}
+
+.parent-gate-card {
+  max-width: 450px;
+  width: 100%;
+  padding: 40px;
+  text-align: center;
+  border-top: 8px solid var(--color-purple);
+  border-radius: var(--radius-lg);
+}
+
+.shield-decor {
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.parent-gate-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: var(--color-purple);
+}
+
+.parent-gate-card p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+
+.gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.gate-equation {
+  font-family: var(--font-kid);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  background: #f1f2f6;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  border: 2.5px dashed var(--color-purple);
+  width: 100%;
+}
+
+.gate-form input {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+}
+
+.gate-form input:focus {
+  border-color: var(--color-purple);
+  outline: none;
+}
+
+.gate-form input.error-pulse {
+  border-color: var(--color-pink);
+  background-color: hsl(345, 100%, 97%);
+  animation: shake 0.4s ease-in-out;
+}
+
+.gate-error-msg {
+  color: var(--color-pink);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.btn-gate-enter {
+  width: 100%;
+}
+
+/* Parent dashboard unlocked area */
+.parent-dash-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.parent-dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.parent-dash-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+
+.parent-dash-header p {
+  color: #666;
+}
+
+.btn-lock-dash {
+  background: white;
+  border: 2px solid #cbd5e1;
+  padding: 10px 20px;
+  font-family: var(--font-kid);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+}
+
+.btn-lock-dash:hover {
+  border-color: var(--color-pink);
+  color: var(--color-pink);
+  background: #fff5f7;
+}
+
+/* Grid Layout metrics */
+.parent-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 32px;
+}
+
+@media (max-width: 600px) {
+  .parent-grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dashboard-metric-card {
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  border-top: 6px solid var(--color-blue);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashboard-metric-card:nth-child(2) {
+  border-top-color: var(--color-pink);
+}
+
+.dashboard-metric-card h3 {
+  font-size: 1.35rem;
+}
+
+.card-desc-small {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.35;
+}
+
+.svg-chart-holder {
+  background: #f8fafc;
+  border: 1px solid rgba(0,0,0,0.04);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  width: 100%;
+}
+
+.analytics-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.metric-totals-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 14px;
+}
+
+/* Settings and Billings panel */
+.parent-settings-panel {
+  padding: 36px;
+  border-radius: var(--radius-lg);
+  border-top: 6px solid var(--color-purple);
+}
+
+.parent-settings-panel h2 {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+
+.settings-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 800px) {
+  .settings-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.settings-billing-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.billing-status-badge {
+  display: flex;
+}
+
+.billing-status-badge .badge {
+  font-family: var(--font-kid);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+}
+
+.badge.pro-pill {
+  background: linear-gradient(135deg, var(--color-purple), var(--color-pink));
+  color: white;
+}
+
+.badge.free-pill {
+  background: #cbd5e1;
+  color: #475569;
+}
+
+.billing-dates {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+.invoice-sim-list {
+  background: #f8fafc;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.invoice-sim-list h4 {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.invoice-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 550;
+  color: #444;
+}
+
+.btn-invoice-dl {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.btn-invoice-dl:hover {
+  border-color: var(--color-purple);
+  color: var(--color-purple);
+}
+
+.btn-cancel-subscription {
+  background: none;
+  border: none;
+  color: var(--color-pink);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: flex-start;
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+.btn-cancel-subscription:hover {
+  color: #b71c1c;
+}
+
+/* Settings toggles column */
+.settings-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toggle-setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: 20px;
+}
+
+.toggle-setting-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.toggle-setting-row strong {
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.toggle-setting-row p {
+  font-size: 0.85rem;
+  color: #666;
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* RETENTION CANCELLATION MODALS OVERLAYS */
+.parent-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.cancellation-modal {
+  max-width: 480px;
+  width: 100%;
+  padding: 40px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-radius: var(--radius-lg);
+  border-top: 8px solid var(--color-pink);
+  position: relative;
+}
+
+.cancellation-modal.coupon-success {
+  border-top-color: var(--color-blue);
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+}
+
+.close-modal-btn:hover {
+  color: var(--text-dark);
+}
+
+.warning-banner-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.cancellation-modal h3 {
+  font-size: 1.5rem;
+  color: var(--color-pink);
+}
+
+.cancellation-modal.coupon-success h3 {
+  color: var(--color-blue);
+}
+
+.cancellation-modal p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.retention-locks-list {
+  list-style: none;
+  text-align: left;
+  width: 100%;
+  background: #fff5f7;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 107, 129, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.retention-locks-list li {
+  font-size: 0.9rem;
+  font-weight: 550;
+  color: #444;
+}
+
+/* Coupon dashed box container */
+.retention-coupon-offer {
+  background: hsl(48, 100%, 96%);
+  border: 2.5px dashed var(--color-yellow);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  position: relative;
+}
+
+.coupon-percent-badge {
+  color: var(--color-orange);
+  background: hsl(24, 100%, 92%);
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.retention-coupon-offer strong {
+  font-size: 1rem;
+  color: var(--color-orange);
+}
+
+.retention-coupon-offer p {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #555;
+}
+
+.btn-coupon-apply {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.modal-actions-cancellation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.btn-modal-stay {
+  width: 100%;
+}
+
+.btn-modal-final-cancel {
+  background: none;
+  border: none;
+  color: #777;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-modal-final-cancel:hover {
+  color: var(--color-pink);
+  text-decoration: underline;
+}
+
+.btn-modal-close {
+  width: 100%;
+  max-width: 240px;
+}
+
+/* Math Lock shake animation keyframes */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}

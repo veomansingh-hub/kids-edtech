@@ -1,0 +1,215 @@
+/* Global Stylesheet for CurioKids Platform */
+
+:root {
+  /* HSL Kid-Friendly Premium Palette */
+  --primary-pink: 345, 100%, 68%;
+  --primary-blue: 198, 100%, 60%;
+  --primary-yellow: 48, 100%, 58%;
+  --primary-purple: 268, 85%, 64%;
+  --primary-green: 142, 72%, 55%;
+  --primary-orange: 24, 100%, 60%;
+  
+  --color-pink: hsl(var(--primary-pink));
+  --color-blue: hsl(var(--primary-blue));
+  --color-yellow: hsl(var(--primary-yellow));
+  --color-purple: hsl(var(--primary-purple));
+  --color-green: hsl(var(--primary-green));
+  --color-orange: hsl(var(--primary-orange));
+
+  /* Neutrals */
+  --bg-dark: hsl(222, 47%, 8%);
+  --bg-light: hsl(210, 50%, 98%);
+  --card-dark: hsl(222, 47%, 12%);
+  --card-light: hsl(0, 0%, 100%);
+  --text-dark: hsl(222, 47%, 15%);
+  --text-light: hsl(0, 0%, 95%);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-dark: rgba(0, 0, 0, 0.08);
+
+  /* Fonts */
+  --font-kid: 'Fredoka', 'Quicksand', system-ui, -apple-system, sans-serif;
+  --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+
+  /* Elevation and Shadows */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
+  --shadow-premium: 0 20px 40px -15px rgba(108, 99, 255, 0.3);
+
+  /* Border Radii */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-full: 9999px;
+  
+  /* State Settings */
+  --transition-normal: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-bouncy: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Base Configuration */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-kid);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+button, input, select {
+  font-family: inherit;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-blue);
+  border-radius: var(--radius-full);
+  border: 3px solid var(--bg-light);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-purple);
+}
+
+/* Core Visual Utilities */
+.bg-gradient-magic {
+  background: linear-gradient(135deg, hsl(268, 85%, 94%) 0%, hsl(198, 100%, 93%) 100%);
+}
+
+.card-premium {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-bouncy);
+}
+
+.card-premium:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-blue);
+}
+
+/* Fun Animated Button styles for kids */
+.btn-bouncy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-kid);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  background-color: var(--color-pink);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 0 hsl(345, 100%, 55%), var(--shadow-md);
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition-bouncy);
+  position: relative;
+  top: 0;
+}
+
+.btn-bouncy:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 hsl(345, 100%, 55%), var(--shadow-lg);
+}
+
+.btn-bouncy:active {
+  top: 6px;
+  box-shadow: 0 0px 0 hsl(345, 100%, 55%), var(--shadow-sm);
+  transform: translateY(0);
+}
+
+.btn-bouncy.blue {
+  background-color: var(--color-blue);
+  box-shadow: 0 6px 0 hsl(198, 100%, 48%), var(--shadow-md);
+}
+.btn-bouncy.blue:hover {
+  box-shadow: 0 8px 0 hsl(198, 100%, 48%), var(--shadow-lg);
+}
+.btn-bouncy.blue:active {
+  box-shadow: 0 0px 0 hsl(198, 100%, 48%), var(--shadow-sm);
+}
+
+.btn-bouncy.purple {
+  background-color: var(--color-purple);
+  box-shadow: 0 6px 0 hsl(268, 85%, 52%), var(--shadow-md);
+}
+.btn-bouncy.purple:hover {
+  box-shadow: 0 8px 0 hsl(268, 85%, 52%), var(--shadow-lg);
+}
+.btn-bouncy.purple:active {
+  box-shadow: 0 0px 0 hsl(268, 85%, 52%), var(--shadow-sm);
+}
+
+.btn-bouncy.green {
+  background-color: var(--color-green);
+  box-shadow: 0 6px 0 hsl(142, 72%, 43%), var(--shadow-md);
+}
+.btn-bouncy.green:hover {
+  box-shadow: 0 8px 0 hsl(142, 72%, 43%), var(--shadow-lg);
+}
+.btn-bouncy.green:active {
+  box-shadow: 0 0px 0 hsl(142, 72%, 43%), var(--shadow-sm);
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(0.95); opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce 3s ease-in-out infinite;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, var(--color-purple), var(--color-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-blue {
+  background: linear-gradient(135deg, var(--color-blue), var(--color-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
