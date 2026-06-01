@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles, Trophy, ShieldCheck, CreditCard, Award, Flame, User, RefreshCw, Edit3 } from 'lucide-react';
-import AbacusSimulator from './components/AbacusSimulator';
 import GKExplorer from './components/GKExplorer';
 import SubscriptionPaywall from './components/SubscriptionPaywall';
 import ParentDashboard from './components/ParentDashboard';
@@ -8,15 +7,16 @@ import Login from './components/Login';
 import './App.css';
 
 const DEFAULT_PROFILES = [
-  { id: 1, name: "Leo 🦁", xp: 0, level: 1, abacusChallengeIdx: 0, streak: 0 },
-  { id: 2, name: "Penny 🐼", xp: 0, level: 1, abacusChallengeIdx: 0, streak: 0 },
-  { id: 3, name: "Bella 🦄", xp: 0, level: 1, abacusChallengeIdx: 0, streak: 0 },
-  { id: 4, name: "Felix 🦊", xp: 0, level: 1, abacusChallengeIdx: 0, streak: 0 },
-  { id: 5, name: "Coco 🐨", xp: 0, level: 1, abacusChallengeIdx: 0, streak: 0 }
+  { id: 1, name: "Leo 🦁", xp: 0, level: 1, streak: 0 },
+  { id: 2, name: "Penny 🐼", xp: 0, level: 1, streak: 0 },
+  { id: 3, name: "Bella 🦄", xp: 0, level: 1, streak: 0 },
+  { id: 4, name: "Felix 🦊", xp: 0, level: 1, streak: 0 },
+  { id: 5, name: "Coco 🐨", xp: 0, level: 1, streak: 0 }
 ];
 
 export default function App() {
-  const [activePage, setActivePage] = useState('abacus');
+  // Main default active page is now 'gk'
+  const [activePage, setActivePage] = useState('gk');
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const saved = sessionStorage.getItem('curiokids_logged_in');
     return saved ? JSON.parse(saved) : false;
@@ -60,7 +60,7 @@ export default function App() {
     
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['abacus', 'gk', 'parents', 'paywall'].includes(hash)) {
+      if (['gk', 'parents', 'paywall'].includes(hash)) {
         setActivePage(hash);
       }
     };
@@ -83,7 +83,7 @@ export default function App() {
 
   const selectProfile = (id) => {
     setActiveProfileId(id);
-    handlePageChange('abacus');
+    handlePageChange('gk');
   };
 
   // Add XP specifically to the active profile
@@ -216,24 +216,17 @@ export default function App() {
 
       {/* Navigation Header */}
       <header className="app-navbar-header card-premium">
-        <div className="nav-logo" onClick={() => handlePageChange('abacus')}>
+        <div className="nav-logo" onClick={() => handlePageChange('gk')}>
           <span className="logo-sparkle animate-pulse">✨</span>
           <span className="logo-text">CurioKids</span>
         </div>
 
         <nav className="nav-options-list">
           <button 
-            className={`nav-btn ${activePage === 'abacus' ? 'active' : ''}`}
-            onClick={() => handlePageChange('abacus')}
-          >
-            🧮 Abacus rods
-          </button>
-          
-          <button 
             className={`nav-btn ${activePage === 'gk' ? 'active' : ''}`}
             onClick={() => handlePageChange('gk')}
           >
-            🧠 GK Trivia
+            🧠 GK Trivia Quest
           </button>
 
           <button 
@@ -290,9 +283,6 @@ export default function App() {
 
       {/* Main view screens */}
       <main className="app-main-content">
-        {activePage === 'abacus' && (
-          <AbacusSimulator addXp={addXp} isPro={isPro} />
-        )}
         {activePage === 'gk' && (
           <GKExplorer addXp={addXp} isPro={isPro} />
         )}
@@ -315,7 +305,7 @@ export default function App() {
           <span className="dot">•</span>
           <a href="#paywall">CurioKids Club Pricing</a>
           <span className="dot">•</span>
-          <a href="#abacus">AbacuStart Playground</a>
+          <a href="#gk">GK Trivia Quest</a>
         </div>
       </footer>
     </div>
