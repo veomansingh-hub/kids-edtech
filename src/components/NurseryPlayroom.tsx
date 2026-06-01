@@ -53,7 +53,7 @@ export default function NurseryPlayroom({
   // Sound chimes
   const playSound = (correct: boolean) => {
     try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.connect(gain);
@@ -519,47 +519,69 @@ export default function NurseryPlayroom({
   };
 
   return (
-    <div className="py-6 px-4 max-w-7xl mx-auto font-body">
+    <div className="py-6 px-4 max-w-7xl mx-auto font-body select-none">
       
       {/* List / Map Grid */}
       {!selectedActivity ? (
         <div>
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-kid text-transparent bg-clip-text bg-gradient-to-r from-primary-pink via-primary-purple to-primary-blue mb-2">
-              🎈 Nursery & Pre-Nursery Playroom
+            <h2 className="text-3xl font-kid text-transparent bg-clip-text bg-gradient-to-r from-primary-pink via-primary-purple to-primary-blue mb-2 leading-snug">
+              🎈 Pre-Nursery & Nursery Playroom 🎨
             </h2>
-            <p className="text-slate-500 font-body max-w-lg mx-auto text-sm">
+            <p className="text-slate-400 font-body max-w-lg mx-auto text-sm font-semibold">
               Fun tactile educational sheets designed for toddler fingers. Color, match, trace, and earn stars!
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {NURSERY_ACTIVITIES.map((act) => (
-              <div
-                key={act.id}
-                onClick={() => setupActivity(act)}
-                className="bg-white border-2 border-slate-100 rounded-3xl p-5 hover:shadow-md cursor-pointer hover:-translate-y-1 transition duration-200 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-2xl">🧸</span>
-                    <span className="bg-primary-blue/10 text-primary-blue text-xs font-kid px-3 py-1 rounded-full">
-                      {act.ageGroup}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {NURSERY_ACTIVITIES.map((act, index) => {
+              // Custom pastel colors based on card index
+              const cardColors = [
+                "from-emerald-50 to-teal-50/20 hover:border-emerald-300 hover:ring-4 hover:ring-emerald-50/70",
+                "from-pink-50 to-rose-50/20 hover:border-pink-300 hover:ring-4 hover:ring-pink-50/70",
+                "from-blue-50 to-indigo-50/20 hover:border-blue-300 hover:ring-4 hover:ring-blue-50/70",
+                "from-amber-50 to-orange-50/20 hover:border-amber-300 hover:ring-4 hover:ring-amber-50/70",
+                "from-purple-50 to-indigo-50/20 hover:border-purple-300 hover:ring-4 hover:ring-purple-50/70"
+              ];
+              const c = cardColors[index % cardColors.length];
+              const tagColors = [
+                "bg-emerald-500/10 text-emerald-700 border-emerald-100",
+                "bg-pink-500/10 text-pink-700 border-pink-100",
+                "bg-blue-500/10 text-blue-700 border-blue-100",
+                "bg-amber-500/10 text-amber-700 border-amber-100",
+                "bg-purple-500/10 text-purple-700 border-purple-100"
+              ];
+              const t = tagColors[index % tagColors.length];
+
+              return (
+                <div
+                  key={act.id}
+                  onClick={() => setupActivity(act)}
+                  className={`bg-gradient-to-br ${c} border-2 border-white rounded-[2.5rem] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition duration-300 cursor-pointer flex flex-col justify-between min-h-[170px] select-none`}
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">🧸</span>
+                      <span className={`border text-[9px] font-kid uppercase tracking-wider px-2.5 py-0.5 rounded-full ${t}`}>
+                        {act.ageGroup}
+                      </span>
+                    </div>
+                    <h3 className="font-kid text-base text-slate-800 mb-1.5 leading-snug">{act.title}</h3>
+                    <p className="text-[11px] text-slate-400 font-body font-medium leading-relaxed">{act.instructions}</p>
+                  </div>
+                  <div className="flex items-center justify-between border-t border-slate-200/40 pt-3 mt-4 text-[10px] font-kid text-slate-400">
+                    <span className="font-bold uppercase tracking-wider">Playroom Worksheet</span>
+                    <span className="text-primary-pink font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-200 uppercase tracking-wider">
+                      Tap to Play →
                     </span>
                   </div>
-                  <h3 className="font-kid text-lg text-slate-800 mb-1">{act.title}</h3>
-                  <p className="text-xs text-slate-500 font-body leading-relaxed">{act.instructions}</p>
                 </div>
-                <div className="flex items-center justify-between border-t border-slate-50 pt-4 mt-4 text-xs font-kid text-slate-400">
-                  <span>Worksheet Activity</span>
-                  <span className="text-primary-pink">Click to Play →</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ) : (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto select-none">
           {/* Controls Header */}
           <div className="flex justify-between items-center gap-4 mb-6 flex-wrap sm:flex-nowrap print:hidden">
             <button

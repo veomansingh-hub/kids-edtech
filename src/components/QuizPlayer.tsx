@@ -62,7 +62,7 @@ export default function QuizPlayer({
   // Sound chimes
   const playFeedbackSound = (correct: boolean) => {
     try {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.connect(gain);

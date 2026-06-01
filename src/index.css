@@ -1,8 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Outfit:wght@100;300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-primary-pink: hsl(345, 100%, 68%);
+  --color-primary-blue: hsl(198, 100%, 60%);
+  --color-primary-yellow: hsl(48, 100%, 58%);
+  --color-primary-purple: hsl(268, 85%, 64%);
+  --color-primary-green: hsl(142, 72%, 55%);
+  --color-primary-orange: hsl(24, 100%, 60%);
+
+  --font-kid: "Fredoka", "Quicksand", system-ui, -apple-system, sans-serif;
+  --font-body: "Outfit", system-ui, -apple-system, sans-serif;
+
+  --animate-bounce-slow: bounce 3s infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+}
 
 :root {
   --primary-pink: 345, 100%, 68%;
@@ -64,4 +81,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn-fun:active {
   transform: translateY(1px);
+}
+
+/* Glassmorphism ambient glow bubbles */
+.bg-bubble {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  animation: float 20s ease-in-out infinite;
+}
+
+.bg-bubble.b1 {
+  width: 350px;
+  height: 350px;
+  top: -80px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(255, 107, 129, 0.3) 0%, rgba(255, 107, 129, 0) 70%);
+}
+
+.bg-bubble.b2 {
+  width: 450px;
+  height: 450px;
+  bottom: -100px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(168, 230, 207, 0.4) 0%, rgba(168, 230, 207, 0) 70%);
+  animation-delay: -5s;
+}
+
+.bg-bubble.b3 {
+  width: 300px;
+  height: 300px;
+  top: 35%;
+  left: 55%;
+  background: radial-gradient(circle, rgba(254, 241, 192, 0.4) 0%, rgba(254, 241, 192, 0) 70%);
+  animation-delay: -10s;
 }

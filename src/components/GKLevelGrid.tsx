@@ -3,6 +3,7 @@ import { GK_LEVELS, GKLevel } from '../data/gkLevels';
 import LevelCard from './LevelCard';
 import { ChildProfile } from '../data/users';
 import { Languages } from 'lucide-react';
+import PhysicsPlayground from './PhysicsPlayground';
 
 interface GKLevelGridProps {
   currentChild: ChildProfile;
@@ -60,9 +61,14 @@ export default function GKLevelGrid({
         <h2 className="text-3xl font-kid text-primary-pink mb-1">
           GK Brainy Explorer 🧠
         </h2>
-        <p className="text-slate-400 font-body text-sm font-semibold">
+        <p className="text-slate-400 font-body text-sm font-semibold mb-6">
           Level up your General Knowledge with fun interactive trivia and games!
         </p>
+      </div>
+
+      {/* Interactive Physics Playground */}
+      <div className="max-w-5xl mx-auto mb-12">
+        <PhysicsPlayground />
       </div>
 
       {/* Card grids */}
