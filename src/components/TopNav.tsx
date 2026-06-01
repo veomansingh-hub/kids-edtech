@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Trophy, Flame, ShieldAlert, LogOut, ChevronDown, Languages, CreditCard } from 'lucide-react';
+import { Sparkles, Trophy, Flame, LogOut, ChevronDown, Languages, CreditCard, RefreshCw } from 'lucide-react';
 import { ChildProfile } from '../data/users';
 
 interface TopNavProps {
@@ -7,8 +7,8 @@ interface TopNavProps {
   setActiveTab: (tab: string) => void;
   currentChild: ChildProfile;
   onLogout: () => void;
+  onProfileSwitch: () => void;
   lang: "en" | "hi";
-  setLang: (lang: "en" | "hi") => void;
   onUpgradeClick: () => void;
   isAllUnlocked: boolean;
 }
@@ -18,8 +18,8 @@ export default function TopNav({
   setActiveTab,
   currentChild,
   onLogout,
+  onProfileSwitch,
   lang,
-  setLang,
   onUpgradeClick,
   isAllUnlocked
 }: TopNavProps) {
@@ -28,155 +28,111 @@ export default function TopNav({
   const xpProgress = currentChild.xp % 100;
   const levelProgress = Math.floor(currentChild.xp / 100) + 1;
 
-  // Language translations map
-  const t = {
-    en: {
-      gk: "🧠 GK Trivia Quest",
-      nursery: "🎈 Nursery Playroom",
-      parents: "📊 Parents Hub",
-      upgrade: "🚀 Upgrade",
-      pro: "👑 PRO",
-      logout: "Log Out",
-      xp: "XP",
-      level: "Level"
-    },
-    hi: {
-      gk: "🧠 सीखें (GK)",
-      nursery: "🎈 नर्सरी प्लेरूम",
-      parents: "📊 माता-पिता (Hub)",
-      upgrade: "अपग्रेड",
-      pro: "प्रो 👑",
-      logout: "बाहर निकलें",
-      xp: "एक्सपी",
-      level: "लेवल"
-    }
-  };
-
   return (
-    <header className="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b-2 border-slate-100 px-4 py-3 shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
+    <header className="bg-white border-b border-slate-100 px-6 py-4 shadow-sm sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap md:flex-nowrap">
         
-        {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('gk')}>
-          <span className="text-3xl animate-spin-slow">✨</span>
-          <span className="text-2xl font-kid text-transparent bg-clip-text bg-gradient-to-r from-primary-pink via-primary-purple to-primary-blue">
+        {/* Left Side Logo */}
+        <div className="flex items-center gap-1.5 cursor-pointer select-none" onClick={() => setActiveTab('gk')}>
+          <span className="text-xl animate-bounce">✨</span>
+          <span className="text-2xl font-kid font-bold text-primary-purple">
             CurioKids
           </span>
         </div>
 
-        {/* Tab Buttons */}
-        <nav className="flex items-center gap-1 sm:gap-2">
+        {/* Center Tabs exactly matching screenshot */}
+        <nav className="flex items-center gap-2 bg-slate-50 border border-slate-200/50 p-1 rounded-full shadow-inner">
           <button
             onClick={() => setActiveTab('gk')}
-            className={`px-4 py-2 rounded-2xl font-kid transition duration-200 ${
+            className={`px-4 py-2 rounded-full font-kid text-sm transition flex items-center gap-1.5 ${
               activeTab === 'gk'
-                ? 'bg-primary-pink text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-50'
+                ? 'bg-primary-purple text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-800'
             }`}
           >
-            {t[lang].gk}
+            <span>🧠 GK Trivia Quest</span>
           </button>
           
           <button
             onClick={() => setActiveTab('nursery')}
-            className={`px-4 py-2 rounded-2xl font-kid transition duration-200 ${
+            className={`px-4 py-2 rounded-full font-kid text-sm transition flex items-center gap-1.5 ${
               activeTab === 'nursery'
-                ? 'bg-primary-blue text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-50'
+                ? 'bg-primary-purple text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-800'
             }`}
           >
-            {t[lang].nursery}
+            <span>📍 Nursery Playroom</span>
           </button>
 
           <button
             onClick={() => setActiveTab('parents')}
-            className={`px-4 py-2 rounded-2xl font-kid transition duration-200 ${
+            className={`px-4 py-2 rounded-full font-kid text-sm transition flex items-center gap-1.5 ${
               activeTab === 'parents'
                 ? 'bg-primary-purple text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-50'
+                : 'text-slate-600 hover:text-slate-800'
             }`}
           >
-            {t[lang].parents}
+            <span>📊 Parents Hub</span>
           </button>
         </nav>
 
-        {/* Child Profile, XP Bar & Upgrade Controls */}
-        <div className="flex items-center gap-4 flex-grow sm:flex-grow-0 justify-end w-full sm:w-auto">
+        {/* Right Side indicators matching screenshot */}
+        <div className="flex items-center gap-3">
           
-          {/* Streak */}
-          <div className="flex items-center gap-1 bg-amber-50 text-amber-600 px-3 py-1.5 rounded-full border border-amber-100 font-kid">
-            <Flame size={18} className="fill-amber-500 text-amber-500 animate-pulse" />
-            <span>{currentChild.streak || 1}d</span>
-          </div>
-
-          {/* XP Bar */}
-          <div className="hidden md:flex flex-col w-36">
-            <div className="flex justify-between text-xs font-kid text-slate-500 mb-1">
-              <span>{t[lang].level} {levelProgress}</span>
-              <span>{xpProgress}/100 {t[lang].xp}</span>
-            </div>
-            <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-200">
-              <div 
-                className="bg-gradient-to-r from-primary-pink to-primary-yellow h-full transition-all duration-300"
-                style={{ width: `${xpProgress}%` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Lang Toggle */}
+          {/* Child Badge selector */}
           <button
-            onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-            className="flex items-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-600 p-2 rounded-full border border-slate-200 transition font-body text-xs uppercase"
-            title="Switch Language"
+            onClick={onProfileSwitch}
+            className="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 border border-slate-200/60 px-3 py-1.5 rounded-full text-xs font-kid font-bold text-slate-700 transition"
           >
-            <Languages size={16} />
-            <span>{lang}</span>
+            <RefreshCw size={12} className="text-slate-400" />
+            <span>{currentChild.displayName}</span>
+            <span>{currentChild.avatar}</span>
           </button>
+
+          {/* Level indicators */}
+          <div className="hidden sm:flex flex-col items-end">
+            <span className="text-[10px] bg-primary-blue text-white font-kid font-bold px-2 py-0.5 rounded-full">
+              Lvl {levelProgress}
+            </span>
+            <span className="text-[10px] text-slate-400 font-body font-semibold mt-0.5">
+              {xpProgress}/100 XP
+            </span>
+          </div>
 
           {/* Upgrade Button */}
           {isAllUnlocked ? (
-            <span className="hidden sm:inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-amber-500 text-white px-4 py-2 rounded-2xl font-kid text-sm shadow-sm animate-pulse">
-              {t[lang].pro}
+            <span className="bg-gradient-to-r from-yellow-400 to-amber-500 text-white font-kid text-xs px-3.5 py-2 rounded-full shadow-sm">
+              👑 PRO
             </span>
           ) : (
             <button
               onClick={onUpgradeClick}
-              className="bg-gradient-to-r from-primary-yellow to-primary-orange text-white px-4 py-2 rounded-2xl font-kid text-sm shadow-sm hover:scale-105 transition duration-200 active:scale-95 flex items-center gap-1"
+              className="bg-primary-pink hover:bg-opacity-95 text-white font-kid text-xs px-4 py-2.5 rounded-full shadow-sm hover:scale-105 transition flex items-center gap-1.5"
             >
-              <CreditCard size={14} />
-              <span>{t[lang].upgrade}</span>
+              🚀 Upgrade
             </button>
           )}
 
-          {/* Profile Dropdown */}
+          {/* Dropdown Logout Toggle */}
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 p-1.5 pr-3 rounded-2xl transition"
+              className="w-10 h-10 rounded-full border-2 border-slate-100 shadow bg-slate-50 flex items-center justify-center hover:bg-slate-100 transition"
             >
               <span className="text-2xl">{currentChild.avatar}</span>
-              <span className="hidden sm:inline font-kid text-slate-700 font-bold">{currentChild.displayName}</span>
-              <ChevronDown size={14} className="text-slate-400" />
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-2xl shadow-lg p-2 z-50">
-                <div className="p-2 border-b border-slate-50 text-center md:hidden">
-                  <div className="text-xs font-kid text-slate-500 mb-1">{t[lang].xp} Progress</div>
-                  <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
-                    <div className="bg-primary-pink h-full" style={{ width: `${xpProgress}%` }}></div>
-                  </div>
-                </div>
-                
+              <div className="absolute right-0 mt-2 w-36 bg-white border border-slate-100 rounded-2xl shadow-lg p-2 z-50">
                 <button
                   onClick={() => {
                     setDropdownOpen(false);
                     onLogout();
                   }}
-                  className="w-full text-left flex items-center gap-2 px-3 py-2.5 rounded-xl hover:bg-red-50 text-red-600 transition font-body text-sm"
+                  className="w-full text-left flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-red-50 text-red-600 transition font-body text-xs"
                 >
-                  <LogOut size={16} />
-                  <span>{t[lang].logout}</span>
+                  <LogOut size={14} />
+                  <span>Log Out</span>
                 </button>
               </div>
             )}
