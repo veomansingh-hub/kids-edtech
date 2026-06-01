@@ -1,4 +1,4 @@
-/* CSS Styles for CurioKids Club & Credit Card Checkout */
+/* CSS Styles for CurioKids Club & Direct UPI Payment Gateway */
 
 .paywall-container {
   max-width: 1200px;
@@ -189,98 +189,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* SOFT-EDGE PREVIEW DIVIDER (IMPLEMENTING WEBMCP/MODERN WEB GUIDANCE PATTERN) */
-.premium-sneak-peek-header {
-  margin: 64px auto 24px auto;
-  text-align: center;
-  font-family: var(--font-kid);
-  color: var(--color-purple);
-}
-
-.soft-edge-fade-container {
-  position: relative;
-  max-width: 900px;
-  margin: 0 auto;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  padding: 24px;
-  
-  /* Apply Modern Web Guidance standard transparency masking */
-  -webkit-mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
-}
-
-.preview-locked-content {
-  filter: blur(0.5px);
-}
-
-.locked-badge-pill {
-  display: inline-block;
-  background: #fee2e2;
-  color: #ef4444;
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  margin-bottom: 16px;
-  letter-spacing: 1px;
-}
-
-.preview-card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 768px) {
-  .preview-card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.preview-mini-card {
-  background: #f8f9fa;
-  border-radius: var(--radius-md);
-  padding: 20px;
-  text-align: center;
-  border: 1px dashed rgba(0,0,0,0.1);
-}
-
-.mini-card-icon {
-  font-size: 2.2rem;
-  margin-bottom: 8px;
-}
-
-.preview-mini-card h4 {
-  font-size: 1rem;
-  margin-bottom: 6px;
-}
-
-.preview-mini-card p {
-  font-size: 0.8rem;
-  color: #666;
-  line-height: 1.3;
-}
-
-/* Fallback for mask image using overlay */
-@supports (not (mask-image: linear-gradient(to bottom, black, transparent))) and (not (-webkit-mask-image: linear-gradient(to bottom, black, transparent))) {
-  .soft-edge-fade-container {
-    position: relative;
-  }
-  .soft-edge-fade-container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
-    pointer-events: none;
-  }
-}
-
 /* CHECKOUT SCREEN STYLING */
 .checkout-screen-container {
   max-width: 900px;
@@ -315,17 +223,169 @@
   }
 }
 
-/* 3D CREDIT CARD VISUALIZER */
-.visual-card-wrapper {
+/* UPI QR SCANNER BOX STYLING */
+.upi-qr-scanner-card {
+  width: 320px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  background: white;
+  border: 2px solid rgba(108, 99, 255, 0.15);
+}
+
+.upi-qr-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-kid);
+  font-size: 0.9rem;
+}
+
+.upi-icon-badge {
+  background: hsl(198, 100%, 94%);
+  color: var(--color-blue);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* Styled QR Code Box */
+.mock-qr-code-box {
+  width: 180px;
+  height: 180px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  position: relative;
+  padding: 16px;
+}
+
+.qr-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 4px solid #1e293b;
+}
+.qr-corner.top-l { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+.qr-corner.top-r { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+.qr-corner.bot-l { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+.qr-corner.bot-r { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+.qr-center-logo {
+  position: absolute;
+  top: calc(50% - 16px);
+  left: calc(50% - 16px);
+  width: 32px;
+  height: 32px;
+  background: var(--color-purple);
+  border-radius: 6px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  z-index: 5;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Matrix dots simulator */
+.qr-pixel-matrix {
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle, #2c3e50 20%, transparent 20%),
+    radial-gradient(circle, #2c3e50 20%, transparent 20%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+  opacity: 0.15;
+}
+
+.upi-details-label {
+  font-family: var(--font-kid);
+  font-size: 1.05rem;
+}
+
+.upi-details-label strong {
+  color: var(--color-purple);
+}
+
+.upi-id-copy-row {
+  display: flex;
+  background: #f1f2f6;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.upi-id-copy-row code {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.btn-copy-upi {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+}
+
+.btn-copy-upi:hover {
+  color: var(--color-purple);
+}
+
+.btn-mobile-pay-intent {
+  width: 100%;
+  font-size: 0.95rem;
+  padding: 10px 0;
+  text-decoration: none;
+}
+
+/* Payment selection toggler */
+.payment-method-selector-tabs {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  background: rgba(0,0,0,0.05);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  margin-top: 16px;
+}
+
+.payment-tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-family: var(--font-kid);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  color: #555;
+}
+
+.payment-tab-btn.active {
+  background: white;
+  color: var(--color-purple);
+  box-shadow: var(--shadow-sm);
+}
+
+/* CC 3D Visuals */
+.credit-card-3d-wrapper {
+  width: 320px;
+  height: 200px;
 }
 
 .credit-card-3d {
-  width: 320px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   perspective: 1000px;
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -352,7 +412,6 @@
   justify-content: space-between;
 }
 
-/* Metallic gold design */
 .front-side {
   background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa771c 100%);
   border: 1px solid rgba(255, 255, 255, 0.35);
@@ -377,7 +436,6 @@
   font-weight: 700;
   font-size: 1.1rem;
   letter-spacing: 1px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .card-chip {
@@ -385,7 +443,6 @@
   height: 30px;
   background: linear-gradient(135deg, #e6d8a3, #b59b58);
   border-radius: 6px;
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.3);
 }
 
 .card-visual-number {
@@ -393,7 +450,6 @@
   font-size: 1.4rem;
   letter-spacing: 2px;
   text-align: center;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .card-visual-details {
@@ -409,14 +465,12 @@
 .details-col .label {
   font-size: 0.6rem;
   color: rgba(255,255,255,0.7);
-  letter-spacing: 1px;
 }
 
 .details-col .val {
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 1px;
-  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
 }
 
 .card-magnetic-strip {
@@ -458,13 +512,6 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  opacity: 0.8;
-}
-
-.card-flip-hint {
-  font-size: 0.85rem;
-  color: #777;
-  font-weight: 550;
 }
 
 /* BILLING INPUT FORM */
@@ -486,6 +533,18 @@
   font-size: 1rem;
   margin-bottom: 24px;
   display: inline-block;
+}
+
+/* UPI Form description */
+.upi-instructions {
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.45;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 16px;
 }
 
 .form-group {
@@ -515,36 +574,9 @@
   outline: none;
 }
 
-.input-with-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.input-decor-icon {
-  position: absolute;
-  left: 14px;
-  color: #94a3b8;
-}
-
-.input-with-icon input {
-  padding-left: 44px;
-  width: 100%;
-}
-
 .form-row {
   display: flex;
   gap: 16px;
-}
-
-.checkout-security-notice {
-  font-size: 0.8rem;
-  color: #666;
-  background: #f1f2f6;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  margin-bottom: 20px;
-  text-align: center;
 }
 
 .btn-pay-now {
@@ -612,52 +644,14 @@
 }
 
 .success-badge-gold {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-yellow), var(--color-orange));
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-lg);
+  font-size: 4.5rem;
+  line-height: 1;
   animation: bounce 2.5s infinite;
 }
 
 .success-thank-you h2 {
   font-size: 1.8rem;
   color: var(--color-green);
-}
-
-.unlocked-items-summary {
-  background: #f8f9fa;
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  width: 100%;
-  text-align: left;
-}
-
-.unlocked-items-summary h3 {
-  font-size: 0.95rem;
-  color: var(--color-purple);
-  margin-bottom: 12px;
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-.success-benefits-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.success-benefits-list li {
-  font-size: 0.9rem;
-  font-weight: 550;
-  line-height: 1.4;
-  color: #444;
 }
 
 .btn-success-start-play {

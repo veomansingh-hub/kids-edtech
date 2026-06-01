@@ -54,6 +54,33 @@ export default function App() {
     }
   }, [activeProfileId]);
 
+  // Active daily study-time tracking per kid (increments every 10 seconds when tab is visible)
+  useEffect(() => {
+    if (!isLoggedIn || activeProfileId === null) return;
+
+    const interval = setInterval(() => {
+      if (document.hidden) return; // Bypass if the tab is blurred or minimized
+
+      const today = new Date().toISOString().split('T')[0];
+      const savedLog = localStorage.getItem('curiokids_time_log');
+      const timeLog = savedLog ? JSON.parse(savedLog) : {};
+      const profileIdStr = activeProfileId.toString();
+
+      if (!timeLog[profileIdStr]) {
+        timeLog[profileIdStr] = {};
+      }
+      if (!timeLog[profileIdStr][today]) {
+        timeLog[profileIdStr][today] = 0;
+      }
+
+      // Add 10 seconds (expressed as minutes: 10 / 60)
+      timeLog[profileIdStr][today] += (10 / 60);
+      localStorage.setItem('curiokids_time_log', JSON.stringify(timeLog));
+    }, 10000); // 10 second polling checks
+
+    return () => clearInterval(interval);
+  }, [isLoggedIn, activeProfileId]);
+
   // Keep hash routes in sync
   useEffect(() => {
     if (!isLoggedIn || activeProfileId === null) return;
