@@ -9,44 +9,43 @@ export default function App() {
     const saved = localStorage.getItem('koa_active_child');
     return saved ? JSON.parse(saved) : null;
   });
+  
   const [childStats, setChildStats] = useState<{[username: string]: any}>(() => {
     const saved = localStorage.getItem('koa_child_stats');
     if (saved) return JSON.parse(saved);
     
-    // Seed initial stats from DEMO_USERS
+    // Seed initial stats
     const initial: {[username: string]: any} = {};
     DEMO_USERS.forEach(u => {
       initial[u.username] = {
-        xp: u.xp || 100,
-        unlocked: ["1", "2"], // 1 and 2 are free/unlocked
+        xp: u.xp || 120,
+        unlocked: ["1", "2"], // Free levels
         completedQuizzes: {},
-        stars: Math.floor((u.xp || 100) / 10),
-        streak: u.streak || 1
+        stars: Math.floor((u.xp || 120) / 10),
+        streak: u.streak || 2
       };
     });
     return initial;
   });
 
-  // Current Modal / Popup States
+  // Modal / Popup States
   const [activeModal, setActiveModal] = useState<'gk' | 'nursery' | 'parents' | null>(null);
   const [showPremium, setShowPremium] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
-  // Quiz / Learn Sub-states inside GK
+  // Quiz / Learn states
   const [gkView, setGkView] = useState<{levelId: string; mode: 'learn' | 'quiz'} | null>(null);
   const [currentLearnCardIndex, setCurrentLearnCardIndex] = useState<number>(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [quizScore, setQuizScore] = useState<number>(0);
   const [showQuizResult, setShowQuizResult] = useState<boolean>(false);
 
-  // Nursery Activity Sub-states
+  // Nursery states
   const [nurseryView, setNurseryView] = useState<{levelId: string} | null>(null);
   const [alphabetAudioLetter, setAlphabetAudioLetter] = useState<string>("");
   const [starsToCount, setStarsToCount] = useState<number>(5);
-  const [userStarCountInput, setUserStarCountInput] = useState<number | null>(null);
   const [countingFeedback, setCountingFeedback] = useState<string>("");
 
-  // Save state helpers
   useEffect(() => {
     localStorage.setItem('koa_child_stats', JSON.stringify(childStats));
   }, [childStats]);
@@ -59,12 +58,12 @@ export default function App() {
     }
   }, [activeChild]);
 
-  // Login handler
+  // Login execution
   const handleLogin = () => {
     const user = DEMO_USERS.find(u => u.username === selectedUsername);
     if (!user) return;
 
-    if (passwordInput === user.password) {
+    if (passwordInput.trim() === user.password) {
       setErrorMsg("");
       const currentStats = childStats[selectedUsername] || {
         xp: user.xp,
@@ -89,7 +88,7 @@ export default function App() {
       setActiveChild(profile);
       setPasswordInput("");
     } else {
-      setErrorMsg("Oops! Try again! 🤫");
+      setErrorMsg("Wrong code! Try again! 🤫");
     }
   };
 
@@ -101,13 +100,13 @@ export default function App() {
     setNurseryView(null);
   };
 
-  // Mock GK Trivia content
+  // Mock Data definitions
   const gkLevels = [
-    { id: "1", title: "Indian Cities", icon: "🏙️", desc: "Pink City, Lake City & Nicknames" },
-    { id: "2", title: "First Leaders", icon: "🇮🇳", desc: "PMs, national animals & monuments" },
-    { id: "3", title: "Space Operations", icon: "🚀", desc: "Solar system & rocket science" },
-    { id: "4", title: "Ashoka Monuments", icon: "🏰", desc: "Emperors, history & fortresses" },
-    { id: "5", title: "World Records", icon: "🌍", desc: "Mountains, oceans & world extremes" },
+    { id: "1", title: "Indian Cities", icon: "🏙️", desc: "Pink City & Lake City names" },
+    { id: "2", title: "First Leaders", icon: "🇮🇳", desc: "First prime ministers & monuments" },
+    { id: "3", title: "Space Operations", icon: "🚀", desc: "Solar system orbit & rockets" },
+    { id: "4", title: "Ashoka Monuments", icon: "🏰", desc: "Monuments & Indian kings" },
+    { id: "5", title: "World Records", icon: "🌍", desc: "Highest peaks & deep oceans" },
   ];
 
   const learnData: {[key: string]: {title: string; fact: string}[]} = {
@@ -161,14 +160,14 @@ export default function App() {
     if (currentQuestionIndex + 1 < questions.length) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
-      // Completed Quiz! Earn XP
-      const earnedXp = (quizScore + (correct ? 1 : 0)) * 10;
+      const finalScore = quizScore + (correct ? 1 : 0);
+      const earnedXp = finalScore * 15;
       if (activeChild) {
         const updatedStats = { ...childStats };
         const userStats = updatedStats[activeChild.username];
         userStats.xp += earnedXp;
         userStats.stars = Math.floor(userStats.xp / 10);
-        userStats.completedQuizzes[levelId] = Math.max(userStats.completedQuizzes[levelId] || 0, quizScore + (correct ? 1 : 0));
+        userStats.completedQuizzes[levelId] = Math.max(userStats.completedQuizzes[levelId] || 0, finalScore);
         
         setChildStats(updatedStats);
         setActiveChild({
@@ -182,7 +181,6 @@ export default function App() {
     }
   };
 
-  // Nursery Activity triggering
   const triggerNurseryLevel = (levelId: string) => {
     const isUnlocked = activeChild?.unlockedLevels.includes(levelId) || Number(levelId) <= 2;
     if (!isUnlocked) {
@@ -190,7 +188,6 @@ export default function App() {
     } else {
       setNurseryView({ levelId });
       setAlphabetAudioLetter("");
-      setUserStarCountInput(null);
       setCountingFeedback("");
       setStarsToCount(Math.floor(Math.random() * 5) + 3);
     }
@@ -205,7 +202,6 @@ export default function App() {
     }
   };
 
-  // Simulate Premium Unlock
   const handleUnlockAll = () => {
     if (activeChild) {
       const updatedStats = { ...childStats };
@@ -231,241 +227,179 @@ export default function App() {
         ))}
       </div>
 
-      {/* ZONE 1 — TOP BAR */}
-      <header className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-6 bg-white/70 backdrop-blur-md rounded-2xl p-3 border-2 border-slate-700 shadow-sm max-h-[80px]">
-        {/* Left branding */}
+      {/* HEADER BAR */}
+      <header className="relative z-10 flex flex-row items-center justify-between bg-white/80 backdrop-blur-md rounded-2xl p-3 border-2 border-slate-800 shadow-sm max-h-[70px]">
         <div className="flex items-center gap-2">
           <span className="text-2xl">🐻</span>
           <div className="flex flex-col text-left leading-tight">
-            <span className="font-black text-xl tracking-wider text-slate-800">KOA</span>
+            <span className="font-black text-lg tracking-wider text-slate-800">KOA</span>
             <span className="text-[9px] font-bold text-slate-400">Made by Aarti</span>
           </div>
         </div>
 
-        {/* Center Title */}
-        <h1 className="font-black text-xs sm:text-sm md:text-base lg:text-lg tracking-wide uppercase text-slate-800 text-center flex-grow">
-          KIDS' WELLNESS MADE WONDERFUL
+        <h1 className="font-black text-xs sm:text-sm tracking-wide uppercase text-slate-800 text-center flex-grow">
+          {activeChild ? `Welcome Back, ${activeChild.displayName}! 🌟` : "KIDS' WELLNESS MADE WONDERFUL"}
         </h1>
 
-        {/* Right Nav buttons */}
-        <div className="flex items-center gap-2">
+        {activeChild && (
           <button 
-            disabled={!activeChild}
-            onClick={() => { setActiveModal('gk'); setGkView(null); }}
-            className={`font-black text-[10px] sm:text-xs px-3 py-1.5 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0px_#2d3748] transition transform active:scale-95 ${activeChild ? 'bg-[#ffda79] hover:bg-[#ffeaa7]' : 'bg-slate-200 opacity-60 cursor-not-allowed'}`}
+            onClick={handleLogout}
+            className="font-black text-[10px] sm:text-xs px-3 py-1.5 bg-red-400 hover:bg-red-500 text-white rounded-xl border-2 border-slate-800 shadow-[2px_2px_0px_#2d3748] transition transform active:scale-95"
           >
-            🧠 GK Trivia
+            Log Out 🚪
           </button>
-          <button 
-            disabled={!activeChild}
-            onClick={() => { setActiveModal('nursery'); setNurseryView(null); }}
-            className={`font-black text-[10px] sm:text-xs px-3 py-1.5 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0px_#2d3748] transition transform active:scale-95 ${activeChild ? 'bg-[#ffabe7] hover:bg-[#ffc6f0]' : 'bg-slate-200 opacity-60 cursor-not-allowed'}`}
-          >
-            🎈 Playroom
-          </button>
-          <button 
-            disabled={!activeChild}
-            onClick={() => setActiveModal('parents')}
-            className={`font-black text-[10px] sm:text-xs px-3 py-1.5 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0px_#2d3748] transition transform active:scale-95 ${activeChild ? 'bg-[#81ecec] hover:bg-[#aeffff]' : 'bg-slate-200 opacity-60 cursor-not-allowed'}`}
-          >
-            📊 Parents Hub
-          </button>
-        </div>
+        )}
       </header>
 
-      {/* ZONE 2 — MAIN HERO CONTAINER */}
-      <main className="relative z-10 flex-grow my-4 flex items-center justify-center max-h-[calc(100vh-170px)]">
+      {/* MAIN VIEW AREA */}
+      <main className="relative z-10 flex-grow my-4 flex items-center justify-center max-h-[calc(100vh-140px)]">
         
-        {/* Main Rounded Box with Dark thick Outline */}
-        <div className="w-full max-w-5xl h-full bg-[#fdfaf4] border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-[8px_8px_0px_#2f3542] flex flex-col lg:flex-row items-center justify-between gap-6 relative overflow-hidden">
-          
-          {/* Inner Scalloped/Dashed Ring Border */}
-          <div className="absolute inset-2 border-2 border-dashed border-slate-700/20 rounded-[2rem] pointer-events-none"></div>
+        {!activeChild ? (
+          // VIEW 1: HOME PAGE LOGIN ONLY GATE
+          <div className="w-full max-w-lg bg-white border-4 border-slate-800 rounded-[2.5rem] p-6 sm:p-8 shadow-[8px_8px_0px_#2f3542] flex flex-col justify-between gap-5 relative overflow-hidden">
+            <div className="absolute inset-2 border-2 border-dashed border-slate-700/20 rounded-[2rem] pointer-events-none"></div>
 
-          {/* Left Hero Area: Emojis/Characters & Learning Cards */}
-          <div className="flex-grow w-full lg:w-[65%] h-full flex flex-col justify-between gap-4 relative z-10">
-            
-            {/* Mascot Characters Zone */}
-            <div className="flex-grow flex items-center justify-center gap-12 relative min-h-[160px]">
-              {/* Baby Teddy 🧸 */}
-              <div className="flex flex-col items-center animate-bounce duration-1000">
-                <span className="text-6xl sm:text-7xl drop-shadow-md">🧸</span>
-                <span className="bg-amber-100 border border-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 text-amber-800 shadow-sm">Baby Teddy</span>
-              </div>
-
-              {/* Big Happy Panda ⭐ */}
-              <div className="flex flex-col items-center transform scale-110 relative">
-                <span className="absolute -top-3 -right-2 text-2xl animate-pulse">⭐</span>
-                <span className="text-7xl sm:text-8xl drop-shadow-lg">🐼</span>
-                <span className="bg-slate-100 border border-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 text-slate-800 shadow-sm">Super Panda</span>
-              </div>
-
-              {/* Graduate Teddy 🎓 */}
-              <div className="flex flex-col items-center">
-                <span className="text-6xl sm:text-7xl drop-shadow-md relative">
-                  <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 text-2xl">🎓</span>
-                  🐻
-                </span>
-                <span className="bg-blue-100 border border-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-full mt-2 text-blue-800 shadow-sm">Dr. Bear</span>
-              </div>
+            {/* Lively mascot illustrations */}
+            <div className="flex items-center justify-center gap-6 py-2 border-b-2 border-dashed border-slate-200">
+              <span className="text-5xl animate-bounce">🧸</span>
+              <span className="text-6xl animate-pulse">🐼</span>
+              <span className="text-5xl">🐻🎓</span>
             </div>
 
-            {/* 5 Small Visual Learning Cards Arranged neatly */}
-            <div className="grid grid-cols-5 gap-2 w-full max-h-[75px] mt-auto">
-              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-2 flex flex-col items-center justify-center shadow-sm hover:scale-105 transition duration-200">
-                <span className="text-lg sm:text-xl">🌍</span>
-                <span className="text-[9px] font-bold text-emerald-800 uppercase tracking-wider">GK Fun</span>
-              </div>
-              <div className="bg-sky-50 border border-sky-200 rounded-2xl p-2 flex flex-col items-center justify-center shadow-sm hover:scale-105 transition duration-200">
-                <span className="text-lg sm:text-xl">🔤</span>
-                <span className="text-[9px] font-bold text-sky-800 uppercase tracking-wider">ABC Play</span>
-              </div>
-              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-2 flex flex-col items-center justify-center shadow-sm hover:scale-105 transition duration-200">
-                <span className="text-lg sm:text-xl">🔢</span>
-                <span className="text-[9px] font-bold text-amber-800 uppercase tracking-wider">123 Count</span>
-              </div>
-              <div className="bg-pink-50 border border-pink-200 rounded-2xl p-2 flex flex-col items-center justify-center shadow-sm hover:scale-105 transition duration-200">
-                <span className="text-lg sm:text-xl">🎨</span>
-                <span className="text-[9px] font-bold text-pink-800 uppercase tracking-wider">Colors</span>
-              </div>
-              <div className="bg-purple-50 border border-purple-200 rounded-2xl p-2 flex flex-col items-center justify-center shadow-sm hover:scale-105 transition duration-200">
-                <span className="text-lg sm:text-xl">🌟</span>
-                <span className="text-[9px] font-bold text-purple-800 uppercase tracking-wider">Stars</span>
-              </div>
+            <div className="text-center">
+              <h2 className="font-black text-lg sm:text-xl uppercase text-slate-800">Select Your Kid Avatar</h2>
+              <p className="text-[10px] font-bold text-slate-400 mt-0.5">Please choose your name & enter the secret key</p>
             </div>
 
+            {/* Avatar Select */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[9px] font-black uppercase text-slate-400 text-left">Choose Child Account</label>
+              <select 
+                value={selectedUsername} 
+                onChange={(e) => setSelectedUsername(e.target.value)}
+                className="w-full border-2 border-slate-300 rounded-2xl px-4 py-2.5 text-xs font-black focus:outline-none focus:border-purple-400 bg-slate-50 cursor-pointer"
+              >
+                <option value="aanya">🐻 Aanya</option>
+                <option value="aarav">🐼 Aarav</option>
+                <option value="myra">🐨 Myra</option>
+                <option value="vihaan">⭐ Vihaan</option>
+                <option value="kiaan">🎮 Kiaan</option>
+              </select>
+            </div>
+
+            {/* Secret key */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[9px] font-black uppercase text-slate-400 text-left">Enter 4-Digit Password</label>
+              <input 
+                type="password" 
+                placeholder="••••••"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="w-full border-2 border-slate-300 rounded-2xl px-4 py-2.5 text-xs font-black focus:outline-none focus:border-purple-400 text-center tracking-widest"
+              />
+              {errorMsg && <p className="text-[10px] font-black text-red-500 text-center animate-shake">{errorMsg}</p>}
+            </div>
+
+            <button
+              onClick={handleLogin}
+              className="w-full bg-[#a29bfe] hover:bg-[#8178fc] text-white font-black text-sm py-3 rounded-2xl border-2 border-slate-800 shadow-[3px_3px_0px_#2f3542] transition transform active:scale-95 text-center uppercase tracking-wider"
+            >
+              Enter Playroom 🚀
+            </button>
+
+            <p className="text-[9px] font-bold text-slate-400 text-center italic leading-tight">
+              Credentials: Aanya / Teddy123 • Aarav / Panda234 • Myra / Cub345
+            </p>
           </div>
-
-          {/* Right Side: LOGIN CARD panel */}
-          <div className="w-full lg:w-[32%] bg-white border-3 border-slate-800 rounded-3xl p-5 shadow-[4px_4px_0px_#2f3542] flex flex-col justify-between min-h-[260px] lg:h-full relative z-10">
+        ) : (
+          // VIEW 2: LOGGED IN INTERACTIVE DASHBOARD (3 TOUCH-FRIENDLY BLOCKS)
+          <div className="w-full max-w-5xl h-full flex flex-col md:flex-row items-stretch gap-6">
             
-            {!activeChild ? (
-              // Locked/Logout State -> Form
-              <div className="flex flex-col justify-between h-full w-full gap-3 text-left">
-                <div className="flex items-center gap-3">
-                  <div className="text-4xl p-2 bg-purple-50 rounded-2xl border border-purple-100">🐻</div>
-                  <div>
-                    <h4 className="font-black text-sm uppercase tracking-wider text-slate-800">Child Portal</h4>
-                    <p className="text-[9px] font-bold text-slate-400">Unlock your learning desk</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-slate-500">Who are you?</label>
-                  <select 
-                    value={selectedUsername} 
-                    onChange={(e) => setSelectedUsername(e.target.value)}
-                    className="w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-purple-400 bg-slate-50"
-                  >
-                    <option value="aanya">🐻 Aanya</option>
-                    <option value="aarav">🐼 Aarav</option>
-                    <option value="myra">🐨 Myra</option>
-                    <option value="vihaan">⭐ Vihaan</option>
-                    <option value="kiaan">🎮 Kiaan</option>
-                  </select>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-black uppercase text-slate-500">Secret Key</label>
-                  <input 
-                    type="password" 
-                    placeholder="Enter password..."
-                    value={passwordInput}
-                    onChange={(e) => setPasswordInput(e.target.value)}
-                    className="w-full border-2 border-slate-300 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-purple-400 text-center"
-                  />
-                  {errorMsg && <p className="text-[9px] font-black text-red-500 text-center">{errorMsg}</p>}
-                </div>
-
-                <button
-                  onClick={handleLogin}
-                  className="w-full bg-[#a29bfe] hover:bg-[#8178fc] text-white font-black text-xs py-2.5 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0px_#2d3748] transition transform active:scale-95 text-center uppercase tracking-wider"
-                >
-                  Enter Playroom 🚀
-                </button>
-
-                <p className="text-[8px] font-bold text-slate-400 text-center italic">
-                  Hint: Aanya (Teddy123), Aarav (Panda234), Myra (Cub345)
+            {/* Block 1: GK Trivia Quest */}
+            <button 
+              onClick={() => { setActiveModal('gk'); setGkView(null); }}
+              className="flex-1 bg-white hover:bg-amber-50/50 border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-[6px_6px_0px_#2d3748] flex flex-col justify-between text-left transition transform active:scale-98 group cursor-pointer hover:border-amber-400"
+            >
+              <div className="flex items-center justify-between w-full">
+                <span className="text-5xl group-hover:scale-110 transition duration-300">🧠</span>
+                <span className="bg-amber-100 text-amber-800 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">LEVEL 1 TO 5 QUIZZES</span>
+              </div>
+              <div className="my-4 flex-grow flex flex-col justify-center">
+                <h3 className="font-black text-lg sm:text-xl text-slate-800 uppercase tracking-wide">GK Trivia Quest</h3>
+                <p className="text-xs text-slate-500 font-body leading-relaxed mt-2 font-semibold">
+                  Master Indian nicknames, first prime ministers, rocket space operations, Ashoka monuments, and world records through dynamic shuffled quizzes!
                 </p>
               </div>
-            ) : (
-              // Logged In Dashboard status inside hero
-              <div className="flex flex-col justify-between h-full w-full gap-3 text-left">
-                <div className="flex items-center gap-3">
-                  <div className="text-5xl p-2 bg-amber-50 rounded-2xl border-2 border-amber-200 animate-bounce">{activeChild.avatar}</div>
-                  <div>
-                    <h4 className="font-black text-base uppercase text-slate-800 leading-tight">Hi, {activeChild.displayName}!</h4>
-                    <span className="bg-amber-100 text-amber-800 text-[8px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Level {activeChild.level} Explorer</span>
-                  </div>
-                </div>
-
-                <div className="bg-[#fcfbf9] border border-slate-200 rounded-2xl p-3 flex items-center justify-between text-center shadow-inner">
-                  <div>
-                    <span className="text-xl">⭐</span>
-                    <p className="text-[8px] font-black text-slate-400 uppercase mt-0.5">Stars</p>
-                    <p className="text-xs font-black text-slate-800">{childStats[activeChild.username]?.stars || 0}</p>
-                  </div>
-                  <div className="border-r border-slate-200 h-8"></div>
-                  <div>
-                    <span className="text-xl">⚡</span>
-                    <p className="text-[8px] font-black text-slate-400 uppercase mt-0.5">XP Earned</p>
-                    <p className="text-xs font-black text-slate-800">{activeChild.xp} XP</p>
-                  </div>
-                  <div className="border-r border-slate-200 h-8"></div>
-                  <div>
-                    <span className="text-xl">🔥</span>
-                    <p className="text-[8px] font-black text-slate-400 uppercase mt-0.5">Streak</p>
-                    <p className="text-xs font-black text-slate-800">{activeChild.streak} Days</p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center text-[9px] font-bold text-slate-400 uppercase">
-                    <span>XP Target</span>
-                    <span>{activeChild.xp % 100} / 100</span>
-                  </div>
-                  <div className="w-full bg-slate-100 h-3.5 rounded-full border border-slate-300 overflow-hidden relative shadow-inner">
-                    <div 
-                      className="bg-gradient-to-r from-amber-400 to-amber-500 h-full rounded-full transition-all duration-500"
-                      style={{ width: `${activeChild.xp % 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleLogout}
-                  className="w-full bg-red-400 hover:bg-red-500 text-white font-black text-[10px] py-2 rounded-xl border-2 border-slate-800 shadow-[2px_2px_0px_#2d3748] transition transform active:scale-95 text-center uppercase tracking-wider"
-                >
-                  Log Out 🚪
-                </button>
+              <div className="w-full bg-[#fcfbf9] border-2 border-slate-800 rounded-2xl py-2 px-4 flex items-center justify-between text-xs font-black text-slate-800 mt-2">
+                <span>Start Quiz Quest</span>
+                <span className="text-[#ff6f3c] text-sm">↗</span>
               </div>
-            )}
+            </button>
+
+            {/* Block 2: Nursery Worksheets */}
+            <button 
+              onClick={() => { setActiveModal('nursery'); setNurseryView(null); }}
+              className="flex-1 bg-white hover:bg-pink-50/50 border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-[6px_6px_0px_#2d3748] flex flex-col justify-between text-left transition transform active:scale-98 group cursor-pointer hover:border-pink-400"
+            >
+              <div className="flex items-center justify-between w-full">
+                <span className="text-5xl group-hover:scale-110 transition duration-300">🎈</span>
+                <span className="bg-pink-100 text-pink-800 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">15 ACTIVITY WORKSHEETS</span>
+              </div>
+              <div className="my-4 flex-grow flex flex-col justify-center">
+                <h3 className="font-black text-lg sm:text-xl text-slate-800 uppercase tracking-wide">Nursery Worksheets</h3>
+                <p className="text-xs text-slate-500 font-body leading-relaxed mt-2 font-semibold">
+                  Trace dotted shapes, match colors, color outline drawings, separate odd one out, and print direct A4 worksheets for offline learning!
+                </p>
+              </div>
+              <div className="w-full bg-[#fcfbf9] border-2 border-slate-800 rounded-2xl py-2 px-4 flex items-center justify-between text-xs font-black text-slate-800 mt-2">
+                <span>Start Worksheets</span>
+                <span className="text-[#ff6f3c] text-sm">↗</span>
+              </div>
+            </button>
+
+            {/* Block 3: Parents Hub */}
+            <button 
+              onClick={() => setActiveModal('parents')}
+              className="flex-1 bg-white hover:bg-sky-50/50 border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-[6px_6px_0px_#2d3748] flex flex-col justify-between text-left transition transform active:scale-98 group cursor-pointer hover:border-sky-400"
+            >
+              <div className="flex items-center justify-between w-full">
+                <span className="text-5xl group-hover:scale-110 transition duration-300">📊</span>
+                <span className="bg-sky-100 text-sky-800 text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">UNLOCKED LEVELS & STATS</span>
+              </div>
+              <div className="my-4 flex-grow flex flex-col justify-center">
+                <h3 className="font-black text-lg sm:text-xl text-slate-800 uppercase tracking-wide">Parents Hub</h3>
+                <p className="text-xs text-slate-500 font-body leading-relaxed mt-2 font-semibold">
+                  Review completed quizzes, manual unlock triggers for paid levels, export logs, and configure custom lessons for your little ones!
+                </p>
+              </div>
+              <div className="w-full bg-[#fcfbf9] border-2 border-slate-800 rounded-2xl py-2 px-4 flex items-center justify-between text-xs font-black text-slate-800 mt-2">
+                <span>Open Parents Portal</span>
+                <span className="text-[#ff6f3c] text-sm">↗</span>
+              </div>
+            </button>
 
           </div>
-
-        </div>
+        )}
 
       </main>
 
-      {/* ZONE 3 — BOTTOM COMPACT PANEL */}
+      {/* FOOTER BAR */}
       <footer className="relative z-10 flex items-center justify-between bg-slate-800 text-white/90 rounded-2xl px-6 py-2 border-2 border-slate-700/80 shadow-md text-xs font-black uppercase tracking-wider max-h-[44px]">
-        <span>© KOA Kids Studio</span>
+        <span>© KOA Kids Learning Hub</span>
         <span className="text-[9px] text-slate-400">Pure Offline Safe Sandbox • No External Ads</span>
         <span>Aarti Gurjar</span>
       </footer>
 
-      {/* MODAL 1: GK TRIVIA QUEST */}
+      {/* MODAL 1: GK TRIVIA QUEST DETAILS */}
       {activeModal === 'gk' && activeChild && (
         <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#fcfbf9] border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col justify-between relative">
-            
-            {/* Header */}
             <div className="flex items-center justify-between border-b-2 border-dashed border-slate-200 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <span className="text-3xl">🧠</span>
                 <div className="text-left">
                   <h3 className="font-black text-lg uppercase text-slate-800">GK Trivia Quest</h3>
-                  <p className="text-[9px] font-bold text-slate-400">Challenge your mind & gather stars</p>
+                  <p className="text-[9px] font-bold text-slate-400">Level 1 to 5 Shuffled Quizzes</p>
                 </div>
               </div>
               <button 
@@ -476,10 +410,8 @@ export default function App() {
               </button>
             </div>
 
-            {/* Content Switcher */}
             {!gkView ? (
-              // Level cards list
-              <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 overflow-y-auto pr-1 flex-grow py-2">
+              <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 overflow-y-auto py-2">
                 {gkLevels.map(level => {
                   const isUnlocked = activeChild.unlockedLevels.includes(level.id) || Number(level.id) <= 2;
                   return (
@@ -491,7 +423,6 @@ export default function App() {
                       <span className="text-4xl mb-2">{level.icon}</span>
                       <h4 className="font-black text-xs uppercase leading-tight">{level.title}</h4>
                       <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase">Level {level.id}</p>
-                      
                       {!isUnlocked && (
                         <span className="absolute top-2 right-2 bg-red-100 border border-red-300 text-red-700 text-[8px] font-black px-1.5 py-0.5 rounded-md">
                           🔒 Premium
@@ -502,9 +433,8 @@ export default function App() {
                 })}
               </div>
             ) : gkView.mode === 'learn' ? (
-              // Learn Cards Flow
               <div className="flex-grow flex flex-col justify-between py-2 min-h-[300px]">
-                <div className="bg-white border-2 border-slate-800 rounded-3xl p-6 text-center shadow-inner relative flex-grow flex flex-col justify-center items-center gap-4">
+                <div className="bg-white border-2 border-slate-800 rounded-3xl p-6 text-center shadow-inner flex-grow flex flex-col justify-center items-center gap-4">
                   <div className="text-5xl animate-bounce">
                     {learnData[gkView.levelId]?.[currentLearnCardIndex]?.title.split(' ')[0] || "📚"}
                   </div>
@@ -514,10 +444,9 @@ export default function App() {
                   <p className="text-sm font-semibold font-body max-w-md text-slate-600">
                     {learnData[gkView.levelId]?.[currentLearnCardIndex]?.fact || "Learn facts about India!"}
                   </p>
-                  
                   <button
                     onClick={() => handleSpeak(learnData[gkView.levelId]?.[currentLearnCardIndex]?.fact || "")}
-                    className="bg-amber-100 hover:bg-amber-200 border-2 border-slate-800 text-slate-800 text-[10px] font-black px-4 py-1 rounded-xl shadow-[2px_2px_0px_#2d3748]"
+                    className="bg-amber-100 hover:bg-amber-200 border-2 border-slate-800 text-slate-800 text-[10px] font-black px-4 py-1.5 rounded-xl shadow-[2px_2px_0px_#2d3748]"
                   >
                     🔊 Speak Fact
                   </button>
@@ -552,7 +481,6 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              // Quiz Flow
               <div className="flex-grow flex flex-col justify-between py-2 min-h-[300px]">
                 {!showQuizResult ? (
                   <div className="bg-white border-2 border-slate-800 rounded-3xl p-6 shadow-inner flex-grow flex flex-col justify-center gap-4">
@@ -562,7 +490,6 @@ export default function App() {
                     <h4 className="font-black text-base sm:text-lg text-slate-800 text-center">
                       {quizData[gkView.levelId]?.[currentQuestionIndex]?.q}
                     </h4>
-
                     <div className="flex flex-col gap-2 mt-2">
                       {quizData[gkView.levelId]?.[currentQuestionIndex]?.opt.map((opt, i) => (
                         <button
@@ -576,17 +503,12 @@ export default function App() {
                     </div>
                   </div>
                 ) : (
-                  // Quiz Finish Card
                   <div className="bg-white border-2 border-slate-800 rounded-3xl p-6 text-center shadow-inner flex-grow flex flex-col justify-center items-center gap-4">
                     <span className="text-6xl animate-bounce">🏆</span>
                     <h4 className="font-black text-xl text-slate-800 uppercase">Quiz Complete!</h4>
                     <p className="text-sm font-semibold font-body text-slate-600">
                       You scored {quizScore} out of {quizData[gkView.levelId]?.length || 3}!
                     </p>
-                    <p className="bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-black px-4 py-2 rounded-2xl">
-                      🎉 Double Stars & XP Saved Successfully!
-                    </p>
-                    
                     <button 
                       onClick={() => setGkView(null)}
                       className="bg-[#a29bfe] hover:bg-[#8178fc] text-white border-2 border-slate-800 text-xs font-black px-6 py-2.5 rounded-xl shadow-[3px_3px_0px_#2f3542]"
@@ -597,23 +519,20 @@ export default function App() {
                 )}
               </div>
             )}
-
           </div>
         </div>
       )}
 
-      {/* MODAL 2: NURSERY PLAYROOM */}
+      {/* MODAL 2: NURSERY WORKSHEETS DETAILS */}
       {activeModal === 'nursery' && activeChild && (
         <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#fcfbf9] border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col justify-between relative">
-            
-            {/* Header */}
             <div className="flex items-center justify-between border-b-2 border-dashed border-slate-200 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <span className="text-3xl">🎈</span>
                 <div className="text-left">
-                  <h3 className="font-black text-lg uppercase text-slate-800">Nursery Playroom</h3>
-                  <p className="text-[9px] font-bold text-slate-400">Playful worksheets & speech sandbox</p>
+                  <h3 className="font-black text-lg uppercase text-slate-800">Nursery Worksheets</h3>
+                  <p className="text-[9px] font-bold text-slate-400">15 Interactive printable worksheets</p>
                 </div>
               </div>
               <button 
@@ -624,15 +543,14 @@ export default function App() {
               </button>
             </div>
 
-            {/* Content Switcher */}
             {!nurseryView ? (
               <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 overflow-y-auto py-2">
                 {[
-                  { id: "1", title: "Alphabet Sound", icon: "🔤", desc: "Hear and repeat letters" },
-                  { id: "2", title: "Star Counter", icon: "🔢", desc: "Count bright golden stars" },
-                  { id: "3", title: "Color Match", icon: "🎨", desc: "Tap matching shades" },
-                  { id: "4", title: "Rhymes Sing", icon: "🎵", desc: "Twinkle twinkle speaker" },
-                  { id: "5", title: "Memory Cards", icon: "🧸", desc: "Match animal pairs" }
+                  { id: "1", title: "Alphabet Sound", icon: "🔤" },
+                  { id: "2", title: "Star Counter", icon: "🔢" },
+                  { id: "3", title: "Color Match", icon: "🎨" },
+                  { id: "4", title: "Rhymes Sing", icon: "🎵" },
+                  { id: "5", title: "Memory Cards", icon: "🧸" }
                 ].map(level => {
                   const isUnlocked = activeChild.unlockedLevels.includes(level.id) || Number(level.id) <= 2;
                   return (
@@ -644,7 +562,6 @@ export default function App() {
                       <span className="text-4xl mb-2">{level.icon}</span>
                       <h4 className="font-black text-xs uppercase leading-tight">{level.title}</h4>
                       <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase">Activity {level.id}</p>
-                      
                       {!isUnlocked && (
                         <span className="absolute top-2 right-2 bg-red-100 border border-red-300 text-red-700 text-[8px] font-black px-1.5 py-0.5 rounded-md">
                           🔒 Premium
@@ -655,7 +572,6 @@ export default function App() {
                 })}
               </div>
             ) : nurseryView.levelId === "1" ? (
-              // Alphabet Audio Activity
               <div className="flex-grow flex flex-col items-center justify-center gap-4 py-4 min-h-[300px]">
                 <h4 className="font-black text-base text-slate-800">Tap a letter to hear its sound! 🔊</h4>
                 <div className="grid grid-cols-6 gap-2 max-w-md w-full">
@@ -672,13 +588,11 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-
                 {alphabetAudioLetter && (
                   <p className="text-xl font-black text-pink-500 uppercase tracking-widest mt-2">
                     🔈 {alphabetAudioLetter} says: "{alphabetAudioLetter === 'A' ? 'Apple' : alphabetAudioLetter === 'B' ? 'Ball' : 'Cat'}!"
                   </p>
                 )}
-
                 <button 
                   onClick={() => setNurseryView(null)}
                   className="bg-slate-200 hover:bg-slate-300 border-2 border-slate-800 text-slate-800 text-xs font-black px-6 py-2 rounded-xl mt-4"
@@ -687,25 +601,20 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              // Star Counter Level 2
               <div className="flex-grow flex flex-col items-center justify-center gap-4 py-4 min-h-[300px]">
                 <h4 className="font-black text-base text-slate-800">How many golden stars can you see? 🌟</h4>
-                
                 <div className="flex gap-2 flex-wrap items-center justify-center bg-white border-2 border-slate-800 rounded-2xl p-6 shadow-inner w-full max-w-sm">
                   {Array.from({ length: starsToCount }).map((_, idx) => (
                     <span key={idx} className="text-3xl animate-pulse">⭐</span>
                   ))}
                 </div>
-
                 <div className="flex gap-2 mt-2">
                   {[3, 4, 5, 6, 7, 8].map(num => (
                     <button
                       key={num}
                       onClick={() => {
-                        setUserStarCountInput(num);
                         if (num === starsToCount) {
                           setCountingFeedback("Correct! You are a superstar! 🌈");
-                          // Earn Stars
                           const updatedStats = { ...childStats };
                           updatedStats[activeChild.username].stars += 5;
                           setChildStats(updatedStats);
@@ -719,23 +628,11 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-
                 {countingFeedback && (
                   <p className={`text-xs font-black uppercase mt-2 ${countingFeedback.includes("Correct") ? 'text-emerald-600' : 'text-red-500'}`}>
                     {countingFeedback}
                   </p>
                 )}
-
-                <button 
-                  onClick={() => {
-                    setStarsToCount(Math.floor(Math.random() * 5) + 3);
-                    setCountingFeedback("");
-                  }}
-                  className="bg-amber-400 hover:bg-amber-500 border-2 border-slate-800 text-slate-800 text-[10px] font-black px-4 py-1.5 rounded-xl shadow-[2px_2px_0px_#2d3748]"
-                >
-                  🔄 Shuffle Stars
-                </button>
-
                 <button 
                   onClick={() => setNurseryView(null)}
                   className="bg-slate-200 hover:bg-slate-300 border-2 border-slate-800 text-slate-800 text-xs font-black px-6 py-2 rounded-xl mt-4"
@@ -744,23 +641,20 @@ export default function App() {
                 </button>
               </div>
             )}
-
           </div>
         </div>
       )}
 
-      {/* MODAL 3: PARENTS HUB */}
+      {/* MODAL 3: PARENTS CONTROL DETAILS */}
       {activeModal === 'parents' && activeChild && (
         <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-[#fcfbf9] border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-2xl max-w-md w-full relative">
-            
-            {/* Header */}
             <div className="flex items-center justify-between border-b-2 border-dashed border-slate-200 pb-3 mb-4">
               <div className="flex items-center gap-2">
                 <span className="text-3xl">📊</span>
                 <div className="text-left">
-                  <h3 className="font-black text-base uppercase text-slate-800">Parents Control</h3>
-                  <p className="text-[8px] font-bold text-slate-400">Configure locks & track progress</p>
+                  <h3 className="font-black text-base uppercase text-slate-800">Parents Control Portal</h3>
+                  <p className="text-[8px] font-bold text-slate-400">Review scores & unlocked triggers</p>
                 </div>
               </div>
               <button 
@@ -771,10 +665,9 @@ export default function App() {
               </button>
             </div>
 
-            {/* Content stats */}
             <div className="flex flex-col gap-4 text-left">
               <div className="bg-white border-2 border-slate-800 rounded-2xl p-4 shadow-sm">
-                <h4 className="font-black text-xs uppercase text-slate-400 tracking-wider">Active Profile</h4>
+                <h4 className="font-black text-xs uppercase text-slate-400 tracking-wider">Active Explorer Profile</h4>
                 <div className="flex items-center justify-between mt-2">
                   <span className="text-3xl">{activeChild.avatar}</span>
                   <span className="font-black text-sm text-slate-800">{activeChild.displayName}</span>
@@ -782,10 +675,8 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Progress bars */}
               <div className="bg-white border-2 border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
                 <h4 className="font-black text-xs uppercase text-slate-800 tracking-wider">Learning Metrics</h4>
-                
                 <div>
                   <div className="flex justify-between text-[9px] font-bold text-slate-400 uppercase mb-1">
                     <span>GK Quiz Levels Done</span>
@@ -813,10 +704,8 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Administrative Lock Switches */}
               <div className="bg-white border-2 border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
                 <h4 className="font-black text-xs uppercase text-slate-800 tracking-wider">Manual Level Overrides</h4>
-                
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-black uppercase text-slate-500">All Levels Unlocked</span>
                   <button
@@ -841,20 +730,16 @@ export default function App() {
       {showPremium && (
         <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-[99] flex items-center justify-center p-4">
           <div className="bg-white border-4 border-slate-800 rounded-[2.5rem] p-6 shadow-2xl max-w-sm w-full text-center relative flex flex-col gap-4">
-            
             <span className="text-6xl animate-bounce">🌟</span>
             <h3 className="font-black text-lg uppercase text-slate-800">Unlock Levels 3–5 to keep learning!</h3>
-            
             <p className="text-xs font-semibold text-slate-500 font-body">
               Get access to Space Explorations, World Geography, colors matching, interactive sounds & badges!
             </p>
-
             <div className="bg-[#fcfbf9] border-2 border-dashed border-slate-300 rounded-2xl p-3 flex flex-col items-center justify-center gap-1.5 shadow-inner">
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Instant UPI Payment</span>
               <span className="text-xs font-black text-slate-800">6375367713@upi</span>
               <span className="text-[10px] font-black text-[#ff6f3c]">Price: ₹99 only</span>
             </div>
-
             <div className="flex gap-2">
               <button
                 onClick={handleUnlockAll}
@@ -869,7 +754,6 @@ export default function App() {
                 Close
               </button>
             </div>
-
           </div>
         </div>
       )}
