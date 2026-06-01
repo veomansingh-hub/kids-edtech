@@ -166,118 +166,206 @@ export default function App() {
   // Screen 1: MARKETING HOMEPAGE LANDING
   if (currentScreen === 'homepage') {
     return (
-      <div className="min-h-screen flex flex-col justify-between font-body bg-gradient-to-br from-indigo-50 via-pink-50 to-amber-50">
+      <div className="min-h-screen flex flex-col justify-between font-body bg-[#e2dbfc]">
         
         {/* Homepage Header */}
-        <header className="px-6 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5 cursor-pointer">
-              <span className="text-3xl animate-bounce">✨</span>
-              <span className="text-2xl font-kid font-bold text-primary-purple">CurioKids</span>
+        <header className="px-6 py-4 max-w-7xl mx-auto w-full flex items-center justify-between relative z-30">
+          <div className="flex items-center gap-4">
+            {/* Circular Back Arrow */}
+            <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center cursor-pointer bg-white hover:bg-slate-50 transition active:scale-90" onClick={() => setCurrentScreen('login')}>
+              <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
             </div>
-            <span className="text-[10px] font-bold text-slate-400 pl-8">Made by Aarti Gurjar</span>
+            {/* Brand Logo */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setCurrentScreen('login')}>
+                <span className="text-3xl animate-bounce">🐻</span>
+                <span className="text-2xl font-black text-slate-800 tracking-wider">KOA</span>
+              </div>
+              <span className="text-[10px] font-bold text-slate-500 tracking-wider">Made by Aarti Gurjar</span>
+            </div>
           </div>
 
-          <button
-            onClick={() => setCurrentScreen('login')}
-            className="bg-primary-purple text-white font-kid text-sm px-6 py-2.5 rounded-full shadow hover:bg-opacity-95 active:scale-95 transition"
-          >
-            Log In
-          </button>
+          {/* Center Navigation Pills */}
+          <nav className="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-widest font-black text-slate-700">
+            <a href="#shop-all" onClick={() => setCurrentScreen('login')} className="hover:text-[#ff6f3c] transition">Shop All</a>
+            <a href="#starter-kit" onClick={() => setCurrentScreen('login')} className="hover:text-[#ff6f3c] transition">Starter Kit</a>
+            <a href="#multivitamin" onClick={() => setCurrentScreen('login')} className="hover:text-[#ff6f3c] transition">Multivitamin</a>
+            <a href="#immunity" onClick={() => setCurrentScreen('login')} className="hover:text-[#ff6f3c] transition">Immunity</a>
+            <a href="#pre-probiotic" onClick={() => setCurrentScreen('login')} className="hover:text-[#ff6f3c] transition">Pre-Probiotic</a>
+          </nav>
+
+          {/* Top Right Controls */}
+          <div className="flex items-center gap-4 text-slate-600">
+            <button onClick={() => setCurrentScreen('login')} className="hover:text-slate-900 transition p-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+            <button onClick={() => setCurrentScreen('login')} className="hover:text-slate-900 transition p-1 flex items-center gap-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+            </button>
+            <button onClick={() => setCurrentScreen('login')} className="relative hover:text-slate-900 transition p-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span className="absolute -top-2 -right-2 bg-[#ff6f3c] text-white rounded-full w-4 h-4 text-[9px] font-bold flex items-center justify-center">0</span>
+            </button>
+          </div>
         </header>
 
-        {/* Hero Slogan Section */}
-        <div className="max-w-7xl mx-auto px-6 py-12 flex-grow flex flex-col lg:flex-row items-center justify-between gap-12 w-full">
+        {/* Hero Section */}
+        <div className="max-w-7xl mx-auto px-6 py-6 flex-grow flex flex-col items-center justify-center text-center gap-6 w-full relative">
           
-          <div className="flex-1 space-y-6 text-center lg:text-left">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-primary-pink bg-pink-100/50 px-3 py-1 rounded-full inline-block">
-              ✨ Welcome to CurioKids Learning Hub
-            </div>
-            
-            {/* Catchy 3-word slogan */}
-            <h1 className="text-5xl sm:text-7xl font-kid leading-none text-slate-800">
-              Learn. <span className="text-primary-pink">Create.</span> <span className="text-primary-blue">Play.</span>
-            </h1>
-            
-            <p className="text-slate-500 text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
-              CurioKids is a playful, gamified interactive workspace for kids to explore world geography, space systems, coloring worksheets, and trace shapes!
-            </p>
+          <h1 className="text-5xl sm:text-7xl font-black leading-none text-slate-800 uppercase tracking-tighter max-w-4xl z-10 relative mt-4 select-none">
+            KIDS' WELLNESS <br/>
+            <span className="text-slate-800">MADE WONDERFUL</span>
+          </h1>
 
-            <div className="flex justify-center lg:justify-start gap-4">
+          {/* Hands holding Bear Main Image Container */}
+          <div className="relative w-full max-w-2xl rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-white -mt-6 group bg-purple-100">
+            <img 
+              src="/hero_hands_bear.png" 
+              alt="Hands and bear toy" 
+              className="w-full object-cover aspect-[4/3] sm:aspect-[16/10] transition duration-700 group-hover:scale-105" 
+            />
+            {/* Grab My Starter Kit Yellow Button overlaid exactly */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
               <button
                 onClick={() => setCurrentScreen('login')}
-                className="bg-primary-pink text-white font-kid text-lg px-8 py-3.5 rounded-2xl shadow-md hover:bg-opacity-90 active:scale-95 transition flex items-center gap-2"
+                className="bg-[#fbec5d] hover:bg-[#f6e03f] text-slate-800 font-black text-xs md:text-sm tracking-wide px-6 py-3 rounded-full border-2 border-slate-800 shadow-[3px_3px_0px_#2f3542] flex items-center gap-3 transition transform active:scale-95 whitespace-nowrap"
               >
-                <Play size={18} fill="white" />
-                <span>Start Learning Free</span>
+                Grab My Starter Kit — 50% Off 
+                <span className="bg-[#ff6f3c] text-white p-1 rounded-full flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
               </button>
             </div>
           </div>
 
-          {/* Right visual picture card */}
-          <div className="flex-1 max-w-md bg-white border-4 border-dashed border-primary-blue/30 rounded-[3rem] p-8 shadow-premium relative text-center">
-            <div className="absolute -top-6 -left-6 text-4xl animate-bounce">🎨</div>
-            <div className="absolute -bottom-6 -right-6 text-4xl animate-bounce animation-delay-2000">🚀</div>
+          {/* Cloud Scalloped Card Container resembling 'Shop Vitamins' reference */}
+          <div className="w-full max-w-4xl bg-white border-[3px] border-[#2f3542] rounded-[3rem] p-8 md:p-12 shadow-[10px_10px_0px_rgba(47,53,66,0.15)] relative mt-12 overflow-hidden">
+            {/* Scalloped edge design inside */}
+            <div className="absolute inset-2 border-2 border-dashed border-[#2f3542]/20 rounded-[2.5rem] pointer-events-none"></div>
 
-            <div className="flex justify-center gap-3 mb-6">
-              <span className="text-5xl">🦁</span>
-              <span className="text-5xl">🦋</span>
-              <span className="text-5xl">🚀</span>
-              <span className="text-5xl">⭐</span>
-            </div>
+            <h2 className="font-black text-3xl text-slate-800 mb-10 uppercase tracking-wide text-center">SHOP VITAMINS</h2>
 
-            <h3 className="font-kid text-2xl text-slate-800 mb-2">5 Kids Profile Playgrounds</h3>
-            <p className="text-xs text-slate-500 font-body leading-relaxed mb-6">
-              Pick your profile, solve daily trivia quizzes, trace raindrop streams, and fill colouring worksheets to earn stars and level up!
-            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+              
+              {/* Product 1: Starter Kit */}
+              <div className="bg-white border-2 border-slate-100 rounded-3xl p-5 flex flex-col items-center justify-between text-center relative group hover:shadow-lg hover:border-amber-300 transition duration-300">
+                <div className="h-36 flex items-center justify-center w-full mb-3">
+                  <img src="/yellow_bear_toy.png" alt="Starter Kit" className="h-28 object-contain transition duration-300 group-hover:scale-110" />
+                </div>
+                <div>
+                  <h3 className="font-black text-[#2f3542] text-sm uppercase tracking-wide">STARTER KIT</h3>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-4 mt-1">ALL 3 VITAMINS</span>
+                </div>
+                <button 
+                  onClick={() => setCurrentScreen('login')}
+                  className="w-full bg-[#f8f9fa] text-slate-700 font-black text-xs py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition active:scale-95"
+                >
+                  Shop Now
+                  <span className="bg-[#ff6f3c] text-white p-1 rounded-lg flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
+                </button>
+              </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 rounded-2xl p-4 border border-slate-100 text-xs font-kid text-slate-500">
-              <div>🧠 5 GK Levels</div>
-              <div>📍 15 Worksheets</div>
-              <div>🗣️ Hindi & English</div>
-              <div>🏆 Practice & Challenge</div>
+              {/* Product 2: Grow + Thrive */}
+              <div className="bg-white border-2 border-slate-100 rounded-3xl p-5 flex flex-col items-center justify-between text-center relative group hover:shadow-lg hover:border-emerald-300 transition duration-300">
+                <div className="h-36 flex items-center justify-center w-full mb-3">
+                  <img src="/yellow_bear_toy.png" alt="Grow + Thrive" className="h-28 object-contain hue-rotate-[120deg] transition duration-300 group-hover:scale-110" />
+                </div>
+                <div>
+                  <h3 className="font-black text-[#2f3542] text-sm uppercase tracking-wide">GROW+THRIVE</h3>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-4 mt-1">MULTI-VITAMIN</span>
+                </div>
+                <button 
+                  onClick={() => setCurrentScreen('login')}
+                  className="w-full bg-[#f8f9fa] text-slate-700 font-black text-xs py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition active:scale-95"
+                >
+                  Shop Now
+                  <span className="bg-[#ff6f3c] text-white p-1 rounded-lg flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
+                </button>
+              </div>
+
+              {/* Product 3: Boost */}
+              <div className="bg-white border-2 border-slate-100 rounded-3xl p-5 flex flex-col items-center justify-between text-center relative group hover:shadow-lg hover:border-pink-300 transition duration-300">
+                <div className="h-36 flex items-center justify-center w-full mb-3">
+                  <img src="/yellow_bear_toy.png" alt="Boost" className="h-28 object-contain hue-rotate-[320deg] transition duration-300 group-hover:scale-110" />
+                </div>
+                <div>
+                  <h3 className="font-black text-[#2f3542] text-sm uppercase tracking-wide">BOOST</h3>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-4 mt-1">IMMUNITY</span>
+                </div>
+                <button 
+                  onClick={() => setCurrentScreen('login')}
+                  className="w-full bg-[#f8f9fa] text-slate-700 font-black text-xs py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition active:scale-95"
+                >
+                  Shop Now
+                  <span className="bg-[#ff6f3c] text-white p-1 rounded-lg flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
+                </button>
+              </div>
+
+              {/* Product 4: Tummy Time */}
+              <div className="bg-white border-2 border-slate-100 rounded-3xl p-5 flex flex-col items-center justify-between text-center relative group hover:shadow-lg hover:border-yellow-300 transition duration-300">
+                <div className="h-36 flex items-center justify-center w-full mb-3">
+                  <img src="/yellow_bear_toy.png" alt="Tummy Time" className="h-28 object-contain brightness-95 transition duration-300 group-hover:scale-110" />
+                </div>
+                <div>
+                  <h3 className="font-black text-[#2f3542] text-sm uppercase tracking-wide">TUMMY TIME</h3>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-4 mt-1">PRE + PROBIOTICS</span>
+                </div>
+                <button 
+                  onClick={() => setCurrentScreen('login')}
+                  className="w-full bg-[#f8f9fa] text-slate-700 font-black text-xs py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-slate-50 transition active:scale-95"
+                >
+                  Shop Now
+                  <span className="bg-[#ff6f3c] text-white p-1 rounded-lg flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
+                </button>
+              </div>
+
             </div>
           </div>
-
         </div>
 
-        {/* Feature Highlights Grid */}
-        <section className="bg-white/80 py-12 px-6 border-t border-slate-100">
-          <div className="max-w-7xl mx-auto text-center">
-            <h2 className="font-kid text-3xl text-slate-800 mb-8">What We Do</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              
-              <div className="p-6 border-2 border-slate-100 rounded-3xl hover:border-primary-pink transition duration-200">
-                <span className="text-5xl block mb-4">🧠</span>
-                <h3 className="font-kid text-xl text-slate-800 mb-2">GK Trivia Quest</h3>
-                <p className="text-xs text-slate-500 leading-relaxed font-body">
-                  Master Indian nicknames, first prime ministers, rocket space operations, Ashoka monuments, and world records through dynamic shuffled quizzes!
-                </p>
-              </div>
+        {/* Tilted Yellow slogan ribbon banner */}
+        <div className="w-full bg-[#feca57] text-[#2f3542] py-4 -rotate-1 transform font-black text-sm tracking-wider text-center border-y-4 border-[#2f3542] uppercase flex items-center justify-around flex-wrap gap-4 select-none my-12">
+          <span>Backed by Science 🌼</span>
+          <span>Loved by Kids 😊</span>
+          <span>Made by Aarti Gurjar 🌟</span>
+        </div>
 
-              <div className="p-6 border-2 border-slate-100 rounded-3xl hover:border-primary-blue transition duration-200">
-                <span className="text-5xl block mb-4">🎈</span>
-                <h3 className="font-kid text-xl text-slate-800 mb-2">Nursery Worksheets</h3>
-                <p className="text-xs text-slate-500 leading-relaxed font-body">
-                  Trace dotted shapes, match colors, color outline drawings, separate odd one out, and print direct A4 worksheets for offline learning!
-                </p>
+        {/* Bottom promo banner matching the orange/red layout in screenshot */}
+        <div className="w-full bg-[#ff7f50] text-white py-16 px-6 relative overflow-hidden">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            {/* Box mockup / details */}
+            <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 w-full md:w-1/2 flex items-center justify-center">
+              <img src="/yellow_bear_toy.png" alt="All in one place" className="h-44 object-contain animate-pulse" />
+              <div className="absolute top-4 right-4 bg-yellow-400 text-slate-800 text-xs font-black uppercase px-3 py-1 rounded-full rotate-12">
+                WINNER
               </div>
-
-              <div className="p-6 border-2 border-slate-100 rounded-3xl hover:border-primary-purple transition duration-200">
-                <span className="text-5xl block mb-4">📊</span>
-                <h3 className="font-kid text-xl text-slate-800 mb-2">Parents Hub</h3>
-                <p className="text-xs text-slate-500 leading-relaxed font-body">
-                  Review completed quizzes, manual unlock triggers for paid levels, export logs, and configure custom lessons for your little ones!
-                </p>
-              </div>
-
+            </div>
+            <div className="w-full md:w-1/2 flex flex-col gap-4 text-left">
+              <h2 className="text-4xl md:text-5xl font-black uppercase leading-tight">
+                ALL THE GOODNESS KIDS NEED, ALL IN ONE PLACE
+              </h2>
+              <p className="text-white/90 text-sm font-semibold tracking-wide">
+                Engineered for kids. Approved by parents. 100% fun guaranteed.
+              </p>
+              <button
+                onClick={() => setCurrentScreen('login')}
+                className="bg-white text-slate-800 font-black text-sm px-6 py-3.5 rounded-2xl shadow hover:bg-slate-50 transition active:scale-95 w-fit mt-2"
+              >
+                Get Started Today
+              </button>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Footer */}
-        <footer className="py-6 text-center text-xs text-slate-400 font-body border-t border-slate-100 bg-white">
-          <p>© 2026 CurioKids Learning Hub. All rights reserved.</p>
+        <footer className="py-6 text-center text-xs text-slate-500 font-body border-t border-slate-300 bg-white/20 print:hidden">
+          <p>© 2026 CurioKids Learning Hub Inc. All rights reserved.</p>
         </footer>
 
       </div>

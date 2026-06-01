@@ -96,7 +96,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
             </button>
             
             <p className="text-[10px] text-slate-400 mt-4 font-body italic">
-              Hint: Password is "{selectedUser.displayName}@1234"
+              Hint: Password is "{selectedUser.password}"
             </p>
           </form>
         )}

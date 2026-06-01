@@ -16,33 +16,33 @@ export interface ChildProfile {
 
 export const DEMO_USERS = [
   {
-    username: "leo",
-    password: "Leo@1234",
-    displayName: "Leo",
+    username: "jinay",
+    password: "1111",
+    displayName: "Jinay (KG)",
     avatar: "🦁"
   },
   {
-    username: "maya",
-    password: "Maya@1234",
-    displayName: "Maya",
-    avatar: "🦋"
-  },
-  {
-    username: "arjun",
-    password: "Arjun@1234",
-    displayName: "Arjun",
+    username: "kiaan",
+    password: "2222",
+    displayName: "Kiaan (UKG)",
     avatar: "🚀"
   },
   {
-    username: "tara",
-    password: "Tara@1234",
-    displayName: "Tara",
+    username: "kiara",
+    password: "3333",
+    displayName: "Kiara (GK)",
     avatar: "⭐"
   },
   {
-    username: "zoya",
-    password: "Zoya@1234",
-    displayName: "Zoya",
+    username: "kayra",
+    password: "4444",
+    displayName: "Kayra (GK)",
     avatar: "🌸"
+  },
+  {
+    username: "kinaya",
+    password: "5678",
+    displayName: "Kinaya (GK)",
+    avatar: "🦋"
   }
 ];
