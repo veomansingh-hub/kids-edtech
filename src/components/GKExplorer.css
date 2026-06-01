@@ -6,6 +6,51 @@
   padding: 24px;
 }
 
+/* Bilingual Language Selector Tab Header */
+.language-selector-tab-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  max-width: 380px;
+  margin: 0 auto 32px auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.lang-label-prefix {
+  font-family: var(--font-kid);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.lang-pill-btn {
+  background: #f1f2f6;
+  border: none;
+  font-family: var(--font-kid);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  color: #555;
+}
+
+.lang-pill-btn:hover {
+  background: #e2e8f0;
+}
+
+.lang-pill-btn.active {
+  background: var(--color-purple);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
 .gk-header {
   text-align: center;
   margin-bottom: 48px;
@@ -236,6 +281,67 @@
 
 .flashcard-navigation button {
   flex: 1;
+}
+
+/* Audio Speeches Button Overlays */
+.btn-audio-speak-round {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-blue);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-bouncy);
+  margin-top: 12px;
+}
+
+.btn-audio-speak-round:hover {
+  transform: scale(1.12);
+  background: var(--color-purple);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-audio-speak-round.back-audio {
+  background: var(--color-green);
+}
+.btn-audio-speak-round.back-audio:hover {
+  background: var(--color-purple);
+}
+
+/* Voice row inside Question arenas */
+.quiz-question-voice-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-audio-speak-round.inline-speak {
+  margin: 0;
+  flex-shrink: 0;
+  background: var(--color-purple);
+}
+
+.btn-speak-explanation-inline {
+  display: block;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  font-weight: 700;
+  font-family: var(--font-kid);
+  color: var(--color-green);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-speak-explanation-inline:hover {
+  color: var(--color-purple);
 }
 
 /* Quiz Pane styles */

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Calendar, Download, ToggleLeft, ToggleRight, X, AlertTriangle, BadgePercent } from 'lucide-react';
 import './ParentDashboard.css';
 
-export default function ParentDashboard({ isPro, setProState, xpCount }) {
+export default function ParentDashboard({ isPro, setProState, profiles }) {
   const [parentUnlocked, setParentUnlocked] = useState(false);
   const [mathProblem, setMathProblem] = useState({ q: '', a: 0 });
   const [parentAnswer, setParentAnswer] = useState('');
   const [gateError, setGateError] = useState(false);
+
+  // Active kid selector state
+  const [selectedKidId, setSelectedKidId] = useState(profiles ? profiles[0].id : 1);
 
   // Settings states
   const [autoRenew, setAutoRenew] = useState(true);
@@ -60,6 +63,52 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
     alert("😔 Pro Club subscription cancelled. Your account has been reverted to the Free Starter Tier.");
   };
 
+  // Get active selected profile details
+  const selectedKid = profiles ? (profiles.find(p => p.id === selectedKidId) || profiles[0]) : { name: "Kid", xp: 0, level: 1 };
+  const xpCount = selectedKid.xp;
+
+  // Custom morphing lines based on kid ID and XP
+  const getKidSvgPaths = () => {
+    const kidId = selectedKid.id;
+    if (kidId === 1) {
+      return {
+        path: "M 50,130 C 100,120 120,60 160,80 C 200,100 220,30 270,40 C 320,50 340,110 370,50",
+        p1: {cx: 50, cy: 130}, p2: {cx: 160, cy: 80}, p3: {cx: 270, cy: 40}, p4: {cx: 370, cy: 50},
+        streak: "5 Days", time: "112 Minutes", cleared: "8 total"
+      };
+    } else if (kidId === 2) {
+      return {
+        path: "M 50,90 C 100,140 130,100 170,110 C 210,80 230,40 280,60 C 330,70 340,80 370,100",
+        p1: {cx: 50, cy: 90}, p2: {cx: 170, cy: 110}, p3: {cx: 280, cy: 60}, p4: {cx: 370, cy: 100},
+        streak: "3 Days", time: "64 Minutes", cleared: "4 total"
+      };
+    } else if (kidId === 3) {
+      return {
+        path: "M 50,150 C 90,80 110,40 150,70 C 190,90 210,120 260,110 C 310,100 330,50 370,30",
+        p1: {cx: 50, cy: 150}, p2: {cx: 150, cy: 70}, p3: {cx: 260, cy: 110}, p4: {cx: 370, cy: 30},
+        streak: "7 Days", time: "185 Minutes", cleared: "15 total"
+      };
+    } else if (kidId === 4) {
+      return {
+        path: "M 50,60 C 80,100 120,120 160,130 C 200,90 240,60 280,40 C 320,60 340,90 370,75",
+        p1: {cx: 50, cy: 60}, p2: {cx: 160, cy: 130}, p3: {cx: 280, cy: 40}, p4: {cx: 370, cy: 75},
+        streak: "2 Days", time: "45 Minutes", cleared: "3 total"
+      };
+    } else {
+      return {
+        path: "M 50,110 C 90,130 130,80 170,50 C 210,60 250,110 290,100 C 330,90 350,120 370,140",
+        p1: {cx: 50, cy: 110}, p2: {cx: 170, cy: 50}, p3: {cx: 290, cy: 100}, p4: {cx: 370, cy: 140},
+        streak: "4 Days", time: "80 Minutes", cleared: "6 total"
+      };
+    }
+  };
+
+  const chartInfo = getKidSvgPaths();
+  const abacusWidth = Math.min(300, 100 + (selectedKid.xp * 3) % 190);
+  const gkWidth = Math.min(300, 80 + (selectedKid.xp * 2.5) % 210);
+  const abacusPercent = Math.round((abacusWidth / 300) * 100);
+  const gkPercent = Math.round((gkWidth / 300) * 100);
+
   // 1. LOCKED GATE VIEW
   if (!parentUnlocked) {
     return (
@@ -98,6 +147,21 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
           <h1><span className="text-gradient-purple">Parent Portal Hub</span> 📊</h1>
           <p>Track your child's cognitive learning progress and manage billing settings.</p>
         </div>
+        
+        {/* Child Selector Dropdown */}
+        <div className="parent-kid-selector-wrapper">
+          <span className="selector-prefix-label">Viewing Profile: </span>
+          <select 
+            className="parent-kid-select-menu"
+            value={selectedKidId}
+            onChange={(e) => setSelectedKidId(parseInt(e.target.value))}
+          >
+            {profiles && profiles.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
+        </div>
+
         <button className="btn-lock-dash" onClick={() => setParentUnlocked(false)}>
           🔒 Lock Dashboard
         </button>
@@ -108,7 +172,7 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
         
         {/* Analytics Card 1: Study Time Progress Curve (SVG) */}
         <div className="card-premium dashboard-metric-card">
-          <h3>Weekly Learning Streak</h3>
+          <h3>Weekly Learning Streak: {selectedKid.name}</h3>
           <p className="card-desc-small">Total active time spent on GK and abacus rods over 7 days.</p>
           
           {/* Curved Line SVG graph */}
@@ -128,13 +192,13 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
 
               {/* Shaded Area */}
               <path 
-                d="M 50,150 L 50,130 C 100,120 120,60 160,80 C 200,100 220,30 270,40 C 320,50 340,110 370,50 L 370,150 Z" 
+                d={`${chartInfo.path} L 370,150 L 50,150 Z`} 
                 fill="url(#chartGradient)"
               />
               
               {/* Curve Line */}
               <path 
-                d="M 50,130 C 100,120 120,60 160,80 C 200,100 220,30 270,40 C 320,50 340,110 370,50" 
+                d={chartInfo.path} 
                 fill="none" 
                 stroke="var(--color-purple)" 
                 strokeWidth="4"
@@ -142,10 +206,10 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
               />
 
               {/* Data Points Glowing Dots */}
-              <circle cx="50" cy="130" r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
-              <circle cx="160" cy="80" r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
-              <circle cx="270" cy="40" r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
-              <circle cx="370" cy="50" r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
+              <circle cx={chartInfo.p1.cx} cy={chartInfo.p1.cy} r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
+              <circle cx={chartInfo.p2.cx} cy={chartInfo.p2.cy} r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
+              <circle cx={chartInfo.p3.cx} cy={chartInfo.p3.cy} r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
+              <circle cx={chartInfo.p4.cx} cy={chartInfo.p4.cy} r="5" fill="var(--color-purple)" stroke="white" strokeWidth="2" />
 
               {/* Day Labels */}
               <text x="50" y="170" textAnchor="middle" fontSize="11" fill="#777">Mon</text>
@@ -157,14 +221,14 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
             </svg>
           </div>
           <div className="metric-totals-footer">
-            <span>Streak: <strong>5 Days Active</strong></span>
-            <span>Total Time: <strong>112 Minutes</strong></span>
+            <span>Streak: <strong>{chartInfo.streak} Active</strong></span>
+            <span>Total Time: <strong>{chartInfo.time}</strong></span>
           </div>
         </div>
 
         {/* Analytics Card 2: Subject Accuracy Bars (SVG) */}
         <div className="card-premium dashboard-metric-card">
-          <h3>Subject Mastery Levels</h3>
+          <h3>Subject Mastery: {selectedKid.name}</h3>
           <p className="card-desc-small">Comparing accuracy and performance quotients across subjects.</p>
           
           <div className="svg-chart-holder">
@@ -172,19 +236,19 @@ export default function ParentDashboard({ isPro, setProState, xpCount }) {
               {/* Category 1: Abacus Math */}
               <text x="20" y="45" fontSize="13" fontWeight="600" fill="#333">Abacus Addition</text>
               <rect x="20" y="55" width="300" height="16" rx="8" fill="#f1f2f6" />
-              <rect x="20" y="55" width="276" height="16" rx="8" fill="var(--color-blue)" />
-              <text x="330" y="68" fontSize="13" fontWeight="700" fill="var(--color-blue)">92%</text>
+              <rect x="20" y="55" width={abacusWidth} height="16" rx="8" fill="var(--color-blue)" />
+              <text x="330" y="68" fontSize="13" fontWeight="700" fill="var(--color-blue)">{abacusPercent}%</text>
 
               {/* Category 2: Trivia Quizzes */}
               <text x="20" y="105" fontSize="13" fontWeight="600" fill="#333">General Knowledge</text>
               <rect x="20" y="115" width="300" height="16" rx="8" fill="#f1f2f6" />
-              <rect x="20" y="115" width="234" height="16" rx="8" fill="var(--color-pink)" />
-              <text x="330" y="128" fontSize="13" fontWeight="700" fill="var(--color-pink)">78%</text>
+              <rect x="20" y="115" width={gkWidth} height="16" rx="8" fill="var(--color-pink)" />
+              <text x="330" y="128" fontSize="13" fontWeight="700" fill="var(--color-pink)">{gkPercent}%</text>
             </svg>
           </div>
           <div className="metric-totals-footer">
-            <span>Challenges Cleared: <strong>12 total</strong></span>
-            <span>XP Accumulated: <strong>{xpCount} XP</strong></span>
+            <span>Challenges Cleared: <strong>{chartInfo.cleared}</strong></span>
+            <span>XP Accumulated: <strong>{xpCount} XP (Level {selectedKid.level})</strong></span>
           </div>
         </div>
 

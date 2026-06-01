@@ -3,7 +3,6 @@ import { Sparkles, Trophy, Heart, Volume2, HelpCircle, Check, X, Lock, Flame } f
 import confetti from 'canvas-confetti';
 import './GKExplorer.css';
 
-// Web audio synthezier for fun gamified sound effects
 const playSoundEffect = (type) => {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -34,71 +33,140 @@ const playSoundEffect = (type) => {
   } catch (e) {}
 };
 
+// Bilingual Categories data structure
 const GK_CATEGORIES = [
   {
     id: 'animals',
     title: '🦁 Nature & Animals',
+    title_hi: '🦁 प्रकृति और जानवर',
     desc: 'Explore the amazing creatures on land and ocean!',
+    desc_hi: 'धरती और महासागरों के अद्भुत जीवों के बारे में जानें!',
     premium: false,
     color: 'pink',
     flashcards: [
-      { q: "Which animal is the largest on earth?", a: "The Blue Whale! Its tongue alone weighs as much as an entire elephant!", icon: "🐳" },
-      { q: "Which land mammal runs the absolute fastest?", a: "The Cheetah! It can go from 0 to 60 miles per hour in just 3 seconds!", icon: "🐆" },
-      { q: "Which birds can fly backwards?", a: "Hummingbirds! They can also hover in mid-air by flapping their wings up to 80 times per second!", icon: "🐦" },
-      { q: "Which mammal sleeps standing up?", a: "Horses and Zebras! They have a special locking mechanism in their legs so they don't fall over!", icon: "🐎" }
+      { 
+        q: "Which animal is the largest on earth?", 
+        q_hi: "धरती पर सबसे बड़ा जानवर कौन सा है?",
+        a: "The Blue Whale! Its tongue alone weighs as much as an entire elephant!", 
+        a_hi: "नीली व्हेल! अकेले इसकी जीभ का वजन एक पूरे हाथी के बराबर होता है!",
+        icon: "🐳" 
+      },
+      { 
+        q: "Which land mammal runs the absolute fastest?", 
+        q_hi: "धरती का कौन सा स्तनधारी सबसे तेज़ दौड़ता है?",
+        a: "The Cheetah! It can go from 0 to 60 miles per hour in just 3 seconds!", 
+        a_hi: "चीता! यह मात्र 3 सेकंड में 0 से 60 मील प्रति घंटे की रफ्तार पकड़ सकता है!",
+        icon: "🐆" 
+      },
+      { 
+        q: "Which birds can fly backwards?", 
+        q_hi: "कौन सा पक्षी पीछे की ओर उड़ सकता है?",
+        a: "Hummingbirds! They can also hover in mid-air by flapping wings up to 80 times per second!", 
+        a_hi: "हमिंगबर्ड! वे प्रति सेकंड 80 बार पंख फड़फड़ाकर हवा में भी मंडरा सकते हैं!",
+        icon: "🐦" 
+      },
+      { 
+        q: "Which mammal sleeps standing up?", 
+        q_hi: "कौन सा स्तनधारी खड़े होकर सोता है?",
+        a: "Horses and Zebras! They have a locking mechanism in their legs so they don't fall over!", 
+        a_hi: "घोड़े और ज़ेबरा! उनके पैरों में एक खास लॉकिंग सिस्टम होता है जिससे वे गिरते नहीं हैं!",
+        icon: "🐎" 
+      }
     ],
     questions: [
-      { q: "How many legs does an octopus have?", options: ["6 legs", "8 legs", "10 legs", "12 legs"], correct: 1, explanation: "Octopuses have 8 arms, which are lined with sensitive suction cups!" },
-      { q: "What is the only mammal that can fly?", options: ["Flying Squirrel", "Bat", "Eagle", "Pigeon"], correct: 1, explanation: "Bats are the only mammals that are capable of true, sustained flight!" },
-      { q: "Which animal sleeps standing up?", options: ["Cat", "Dog", "Lion", "Horse"], correct: 3, explanation: "Horses have a special locked-leg joints system to sleep safely standing up!" },
-      { q: "Which bird can fly backwards?", options: ["Hummingbird", "Parrot", "Owl", "Penguin"], correct: 0, explanation: "Hummingbirds can fly forward, backward, sideways, and hover!" }
+      { 
+        q: "How many legs does an octopus have?", 
+        q_hi: "एक ऑक्टोपस के कितने पैर होते हैं?",
+        options: ["6 legs", "8 legs", "10 legs", "12 legs"], 
+        options_hi: ["6 पैर", "8 पैर", "10 पैर", "12 पैर"], 
+        correct: 1, 
+        explanation: "Octopuses have 8 arms, which are lined with sensitive suction cups!",
+        explanation_hi: "ऑक्टोपस के पास 8 भुजाएं होती हैं, जिन पर संवेदनशील सक्शन कप होते हैं!"
+      },
+      { 
+        q: "What is the only mammal that can fly?", 
+        q_hi: "उड़ने वाला एकमात्र स्तनधारी कौन सा है?",
+        options: ["Flying Squirrel", "Bat", "Eagle", "Pigeon"], 
+        options_hi: ["उड़ने वाली गिलहरी", "चमगादड़", "चील", "कबूतर"], 
+        correct: 1, 
+        explanation: "Bats are the only mammals that are capable of true, sustained flight!",
+        explanation_hi: "चमगादड़ ही एकमात्र ऐसे स्तनधारी हैं जो वास्तव में उड़ने में सक्षम हैं!"
+      },
+      { 
+        q: "Which animal sleeps standing up?", 
+        q_hi: "कौन सा जानवर खड़े होकर सोता है?",
+        options: ["Cat", "Dog", "Lion", "Horse"], 
+        options_hi: ["बिल्ली", "कुत्ता", "शेर", "घोड़ा"], 
+        correct: 3, 
+        explanation: "Horses have special locked-leg joints to sleep safely standing up!",
+        explanation_hi: "खड़े होकर सुरक्षित सोने के लिए घोड़ों के पैरों के जोड़ों में विशेष लॉक होते हैं!"
+      },
+      { 
+        q: "Which bird can fly backwards?", 
+        q_hi: "कौन सा पक्षी पीछे की ओर उड़ सकता है?",
+        options: ["Hummingbird", "Parrot", "Owl", "Penguin"], 
+        options_hi: ["हमिंगबर्ड", "तोता", "उल्लू", "पेंगुइन"], 
+        correct: 0, 
+        explanation: "Hummingbirds can fly forward, backward, sideways, and hover!",
+        explanation_hi: "हमिंगबर्ड आगे, पीछे, अगल-बगल उड़ सकते हैं और हवा में तैर सकते हैं!"
+      }
     ]
   },
   {
     id: 'space',
     title: '🚀 Space & Planets',
+    title_hi: '🚀 अंतरिक्ष और ग्रह',
     desc: 'Take a trip to our solar system and the distant stars!',
-    premium: true, // Preview available, quiz requires pro
+    desc_hi: 'हमारे सौर मंडल और दूर के तारों की यात्रा करें!',
+    premium: true, 
     color: 'purple',
     flashcards: [
-      { q: "Which planet is closest to the Sun?", a: "Mercury! Even though it is closest, Venus is actually the hottest planet due to thick clouds!", icon: "🪐" },
-      { q: "Which planet has massive giant rings around it?", a: "Saturn! The rings are made of billions of chunks of ice, rocks, and dust!", icon: "🪐" },
-      { q: "What is the Sun made of?", a: "It is a giant ball of burning hot gases, mostly Hydrogen and Helium!", icon: "☀️" },
-      { q: "Why is Mars called the Red Planet?", a: "Because its surface is covered in iron oxide, which is basically rust!", icon: "🔴" }
+      { 
+        q: "Which planet is closest to the Sun?", 
+        q_hi: "सूर्य के सबसे निकट का ग्रह कौन सा है?",
+        a: "Mercury! Even though it is closest, Venus is actually the hottest planet!", 
+        a_hi: "बुध! भले ही यह सबसे करीब है, लेकिन शुक्र वास्तव में सबसे गर्म ग्रह है!",
+        icon: "🪐" 
+      },
+      { 
+        q: "Which planet has massive giant rings around it?", 
+        q_hi: "किस ग्रह के चारों ओर विशाल छल्ले हैं?",
+        a: "Saturn! The rings are made of billions of chunks of ice, rocks, and dust!", 
+        a_hi: "शनि! छल्ले अरबों बर्फ, चट्टानों और धूल के टुकड़ों से बने हैं!",
+        icon: "🪐" 
+      }
     ],
     questions: [
-      { q: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Neptune"], correct: 1, explanation: "Mars is reddish because its dust has lots of iron oxide (rust)!" },
-      { q: "What is the hottest planet in our solar system?", options: ["Mercury", "Venus", "Earth", "Saturn"], correct: 1, explanation: "Venus is the hottest because its thick atmosphere traps heat like a greenhouse!" },
-      { q: "Which is the largest planet in our solar system?", options: ["Earth", "Mars", "Jupiter", "Uranus"], correct: 2, explanation: "Jupiter is so huge that over 1,300 Earths could fit inside it!" },
-      { q: "How long does it take for light from the Sun to reach Earth?", options: ["8 seconds", "8 minutes", "8 hours", "Immediate"], correct: 1, explanation: "Since the Sun is 93 million miles away, light takes about 8 minutes to travel here!" }
-    ]
-  },
-  {
-    id: 'geography',
-    title: '🗺️ Earth & Geography',
-    desc: 'Discover continents, massive mountains, and hidden rivers!',
-    premium: true, // Fully locked
-    color: 'blue',
-    flashcards: [
-      { q: "What is the tallest mountain above sea level?", a: "Mount Everest! It stands at 29,031 feet high in the Himalayas!", icon: "🏔️" },
-      { q: "Which river is the longest in the world?", a: "The Nile River in Africa! It stretches over 4,130 miles!", icon: "🌊" },
-      { q: "How many oceans are on Planet Earth?", a: "5 Oceans: Pacific, Atlantic, Indian, Southern, and Arctic oceans!", icon: "🌎" },
-      { q: "Which is the largest hot desert in the world?", a: "The Sahara Desert! It covers almost the entire northern half of Africa!", icon: "🌵" }
-    ],
-    questions: [
-      { q: "Which country is home to the Eiffel Tower?", options: ["Italy", "Germany", "France", "Spain"], correct: 2, explanation: "The Eiffel Tower is located in Paris, the capital city of France!" },
-      { q: "Which is the largest continent on Earth?", options: ["North America", "Africa", "Europe", "Asia"], correct: 3, explanation: "Asia is the largest continent in both size and population!" },
-      { q: "What is the capital of the United States?", options: ["New York", "Los Angeles", "Washington, D.C.", "Chicago"], correct: 2, explanation: "Washington, D.C. is the capital and where the President lives!" },
-      { q: "Which ocean is the largest on Earth?", options: ["Atlantic Ocean", "Pacific Ocean", "Indian Ocean", "Arctic Ocean"], correct: 1, explanation: "The Pacific Ocean covers more than 30% of the Earth's surface!" }
+      { 
+        q: "Which planet is known as the Red Planet?", 
+        q_hi: "किस ग्रह को लाल ग्रह के नाम से जाना जाता है?",
+        options: ["Venus", "Mars", "Jupiter", "Neptune"], 
+        options_hi: ["शुक्र", "मंगल", "बृहस्पति", "वरुण"], 
+        correct: 1, 
+        explanation: "Mars is reddish because its dust has lots of iron oxide (rust)!",
+        explanation_hi: "मंगल लाल है क्योंकि इसकी धूल में बहुत सारा आयरन ऑक्साइड (जंग) है!"
+      },
+      { 
+        q: "What is the hottest planet in our solar system?", 
+        q_hi: "हमारे सौर मंडल का सबसे गर्म ग्रह कौन सा है?",
+        options: ["Mercury", "Venus", "Earth", "Saturn"], 
+        options_hi: ["बुध", "शुक्र", "पृथ्वी", "शनि"], 
+        correct: 1, 
+        explanation: "Venus is the hottest because its thick atmosphere traps heat!",
+        explanation_hi: "शुक्र सबसे गर्म है क्योंकि इसका घना वायुमंडल गर्मी को सोख लेता है!"
+      }
     ]
   }
 ];
 
 export default function GKExplorer({ addXp, isPro }) {
   const [activeCategory, setActiveCategory] = useState('animals');
-  const [activeView, setActiveView] = useState('menu'); // 'menu', 'flashcards', 'quiz'
+  const [activeView, setActiveView] = useState('menu'); 
   const [flashcardIdx, setFlashcardIdx] = useState(0);
   const [cardFlipped, setCardFlipped] = useState(false);
+  
+  // Voice Synthesis settings
+  const [speakLang, setSpeakLang] = useState('en'); // 'en' or 'hi'
   
   // Quiz states
   const [quizIdx, setQuizIdx] = useState(0);
@@ -110,7 +178,30 @@ export default function GKExplorer({ addXp, isPro }) {
   const [quizOver, setQuizOver] = useState(false);
   const [quizSuccess, setQuizSuccess] = useState(false);
 
-  const category = GK_CATEGORIES.find(c => c.id === activeCategory);
+  const category = GK_CATEGORIES.find(c => c.id === activeCategory) || GK_CATEGORIES[0];
+
+  // Stop active speech on component switch
+  useEffect(() => {
+    return () => {
+      try {
+        window.speechSynthesis.cancel();
+      } catch(e) {}
+    };
+  }, [activeView, quizIdx, flashcardIdx]);
+
+  // Voice Speech Synthesizer API
+  const handleReadAloud = (textToSpeak, customLang = speakLang) => {
+    try {
+      window.speechSynthesis.cancel(); // Stop prior audio
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = customLang === 'hi' ? 'hi-IN' : 'en-US';
+      utterance.rate = 0.85; // Slower cadence for kids
+      utterance.pitch = 1.1; // Slightly cuter high-pitched profile
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.log("Speech synthesis error or blocked");
+    }
+  };
 
   const startQuiz = (catId) => {
     const targetCat = GK_CATEGORIES.find(c => c.id === catId);
@@ -147,7 +238,7 @@ export default function GKExplorer({ addXp, isPro }) {
       playSoundEffect('correct');
       setScore(s => s + 10);
       setStreak(st => st + 1);
-      addXp(15 + (streak > 2 ? 5 : 0)); // XP and Streak bonus
+      addXp(15 + (streak > 2 ? 5 : 0)); 
     } else {
       playSoundEffect('wrong');
       setLives(l => {
@@ -169,7 +260,7 @@ export default function GKExplorer({ addXp, isPro }) {
     } else {
       setQuizSuccess(true);
       playQuizEndConfetti();
-      addXp(50); // Massive XP reward
+      addXp(50); 
     }
   };
 
@@ -183,11 +274,35 @@ export default function GKExplorer({ addXp, isPro }) {
 
   return (
     <div className="gk-container">
-      {/* GK Header */}
+      {/* Dynamic Bilingual Language Switch Header Tab */}
+      <div className="language-selector-tab-header">
+        <span className="lang-label-prefix">🗣️ Reader Language: </span>
+        <button 
+          className={`lang-pill-btn ${speakLang === 'en' ? 'active' : ''}`}
+          onClick={() => { setSpeakLang('en'); try { window.speechSynthesis.cancel(); } catch(e){} }}
+        >
+          🇬🇧 English
+        </button>
+        <button 
+          className={`lang-pill-btn ${speakLang === 'hi' ? 'active' : ''}`}
+          onClick={() => { setSpeakLang('hi'); try { window.speechSynthesis.cancel(); } catch(e){} }}
+        >
+          🇮🇳 हिंदी (Hindi)
+        </button>
+      </div>
+
       {activeView === 'menu' && (
         <div className="gk-header">
-          <h1 className="gk-title"><span className="text-gradient-purple">GK Brainy Explorer</span> 🧠</h1>
-          <p className="gk-subtitle">Level up your General Knowledge with fun interactive trivia and games!</p>
+          <h1 className="gk-title">
+            <span className="text-gradient-purple">
+              {speakLang === 'hi' ? "जीके ब्रायनी एक्सप्लोरर" : "GK Brainy Explorer"}
+            </span> 🧠
+          </h1>
+          <p className="gk-subtitle">
+            {speakLang === 'hi' 
+              ? "मज़ेदार इंटरैक्टिव क्विज़ और गेम के साथ अपने ज्ञान को बढ़ाएं!" 
+              : "Level up your General Knowledge with fun interactive trivia and games!"}
+          </p>
         </div>
       )}
 
@@ -206,22 +321,24 @@ export default function GKExplorer({ addXp, isPro }) {
                     <Lock size={16} /> Locked
                   </div>
                 )}
-                <div className="gk-cat-icon">{cat.id === 'animals' ? '🦁' : cat.id === 'space' ? '🚀' : '🗺️'}</div>
-                <h3>{cat.title}</h3>
-                <p>{cat.desc}</p>
+                <div className="gk-cat-icon">{cat.id === 'animals' ? '🦁' : '🚀'}</div>
+                <h3>{speakLang === 'hi' ? cat.title_hi : cat.title}</h3>
+                <p>{speakLang === 'hi' ? cat.desc_hi : cat.desc}</p>
                 
                 <div className="gk-card-actions">
                   <button 
                     className="btn-bouncy blue btn-gk"
                     onClick={() => startFlashcards(cat.id)}
                   >
-                    📖 Learn Cards
+                    {speakLang === 'hi' ? "📖 फ्लैशकार्ड्स" : "📖 Learn Cards"}
                   </button>
                   <button 
                     className={`btn-bouncy ${cat.color} btn-gk`}
                     onClick={() => startQuiz(cat.id)}
                   >
-                    {isLocked ? "🔒 Play Quiz" : "🏆 Play Quiz"}
+                    {isLocked 
+                      ? (speakLang === 'hi' ? "🔒 क्विज़ खेलें" : "🔒 Play Quiz") 
+                      : (speakLang === 'hi' ? "🏆 क्विज़ खेलें" : "🏆 Play Quiz")}
                   </button>
                 </div>
               </div>
@@ -234,30 +351,74 @@ export default function GKExplorer({ addXp, isPro }) {
       {activeView === 'flashcards' && (
         <div className="gk-flashcards-pane">
           <button className="btn-back-menu" onClick={() => setActiveView('menu')}>
-            ← Back to Categories
+            {speakLang === 'hi' ? "← श्रेणियों पर वापस जाएं" : "← Back to Categories"}
           </button>
           
           <div className="flashcard-arena">
             <div className="flashcard-counter">
-              Card {flashcardIdx + 1} of {category.flashcards.length}
+              {speakLang === 'hi' 
+                ? `कार्ड ${flashcardIdx + 1} का ${category.flashcards.length}`
+                : `Card ${flashcardIdx + 1} of ${category.flashcards.length}`}
             </div>
 
             <div 
               className={`flashcard-wrapper ${cardFlipped ? 'flipped' : ''}`}
               onClick={() => setCardFlipped(!cardFlipped)}
             >
+              {/* Card Front */}
               <div className="flashcard-face flashcard-front">
                 <div className="card-deco-stars">✨ ⭐</div>
                 <div className="flashcard-icon-big">{category.flashcards[flashcardIdx].icon}</div>
-                <h2 className="flashcard-question-text">{category.flashcards[flashcardIdx].q}</h2>
-                <div className="click-hint-badge">👆 Tap to flip and find out!</div>
+                <h2 className="flashcard-question-text">
+                  {speakLang === 'hi' ? category.flashcards[flashcardIdx].q_hi : category.flashcards[flashcardIdx].q}
+                </h2>
+                
+                {/* Speaker reading button */}
+                <button 
+                  className="btn-audio-speak-round"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleReadAloud(
+                      speakLang === 'hi' 
+                        ? category.flashcards[flashcardIdx].q_hi 
+                        : category.flashcards[flashcardIdx].q
+                    );
+                  }}
+                >
+                  <Volume2 size={16} />
+                </button>
+
+                <div className="click-hint-badge">
+                  {speakLang === 'hi' ? "👆 जवाब देखने के लिए टैप करें!" : "👆 Tap to flip and find out!"}
+                </div>
               </div>
               
+              {/* Card Back */}
               <div className="flashcard-face flashcard-back">
                 <div className="card-deco-stars">💡 🎉</div>
-                <h3>Interesting Fact:</h3>
-                <p className="flashcard-answer-text">{category.flashcards[flashcardIdx].a}</p>
-                <div className="click-hint-badge">🔄 Tap to flip back</div>
+                <h3>{speakLang === 'hi' ? "रोचक तथ्य:" : "Interesting Fact:"}</h3>
+                <p className="flashcard-answer-text">
+                  {speakLang === 'hi' ? category.flashcards[flashcardIdx].a_hi : category.flashcards[flashcardIdx].a}
+                </p>
+
+                {/* Speaker back reading button */}
+                <button 
+                  className="btn-audio-speak-round back-audio"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleReadAloud(
+                      speakLang === 'hi' 
+                        ? category.flashcards[flashcardIdx].a_hi 
+                        : category.flashcards[flashcardIdx].a
+                    );
+                  }}
+                >
+                  <Volume2 size={16} />
+                </button>
+
+                <div className="click-hint-badge">
+                  {speakLang === 'hi' ? "🔄 पीछे वापस जाने के लिए टैप करें" : "🔄 Tap to flip back"}
+                </div>
               </div>
             </div>
 
@@ -267,7 +428,7 @@ export default function GKExplorer({ addXp, isPro }) {
                 disabled={flashcardIdx === 0}
                 onClick={() => { setFlashcardIdx(i => i - 1); setCardFlipped(false); }}
               >
-                Previous
+                {speakLang === 'hi' ? "पीछे" : "Previous"}
               </button>
               
               {flashcardIdx < category.flashcards.length - 1 ? (
@@ -275,14 +436,14 @@ export default function GKExplorer({ addXp, isPro }) {
                   className="btn-bouncy purple"
                   onClick={() => { setFlashcardIdx(i => i + 1); setCardFlipped(false); }}
                 >
-                  Next Fact 📖
+                  {speakLang === 'hi' ? "अगला तथ्य 📖" : "Next Fact 📖"}
                 </button>
               ) : (
                 <button 
                   className="btn-bouncy green animate-pulse"
                   onClick={() => startQuiz(category.id)}
                 >
-                  🎯 Let's Play the Quiz!
+                  {speakLang === 'hi' ? "🎯 चलो क्विज़ खेलें!" : "🎯 Let's Play the Quiz!"}
                 </button>
               )}
             </div>
@@ -296,11 +457,12 @@ export default function GKExplorer({ addXp, isPro }) {
           {/* Quiz Top Bar */}
           <div className="quiz-top-bar">
             <button className="btn-exit-quiz" onClick={() => setActiveView('menu')}>
-              🚪 Exit
+              {speakLang === 'hi' ? "🚪 बाहर" : "🚪 Exit"}
             </button>
-            <div className="quiz-category-badge">{category.title}</div>
+            <div className="quiz-category-badge">
+              {speakLang === 'hi' ? category.title_hi : category.title}
+            </div>
             
-            {/* Lives counter */}
             <div className="quiz-stats-group">
               <div className="lives-holder">
                 {[1, 2, 3].map((heartIdx) => (
@@ -312,15 +474,13 @@ export default function GKExplorer({ addXp, isPro }) {
                 ))}
               </div>
               
-              {/* Streak Tracker */}
               {streak >= 2 && (
                 <div className="streak-indicator animate-float">
                   <Flame size={20} fill="#ff7f50" color="#ff4757" />
-                  <span>{streak}x Streak!</span>
+                  <span>{streak}x {speakLang === 'hi' ? "लगातार!" : "Streak!"}</span>
                 </div>
               )}
 
-              {/* XP score */}
               <div className="xp-score-pill">
                 ⭐ {score} Pts
               </div>
@@ -330,7 +490,6 @@ export default function GKExplorer({ addXp, isPro }) {
           {/* Quiz Interface Container */}
           {!quizOver && !quizSuccess ? (
             <div className="card-premium quiz-card animate-float">
-              {/* Progress Bar */}
               <div className="quiz-progress-bar-container">
                 <div 
                   className="quiz-progress-bar"
@@ -339,8 +498,30 @@ export default function GKExplorer({ addXp, isPro }) {
               </div>
 
               <div className="quiz-question-header">
-                <span className="question-number">Question {quizIdx + 1} of {category.questions.length}</span>
-                <h2>{category.questions[quizIdx].q}</h2>
+                <span className="question-number">
+                  {speakLang === 'hi' 
+                    ? `प्रश्न ${quizIdx + 1} का ${category.questions.length}` 
+                    : `Question ${quizIdx + 1} of ${category.questions.length}`}
+                </span>
+                
+                {/* Question Row with Speaker reader */}
+                <div className="quiz-question-voice-row">
+                  <h2>
+                    {speakLang === 'hi' ? category.questions[quizIdx].q_hi : category.questions[quizIdx].q}
+                  </h2>
+                  <button 
+                    className="btn-audio-speak-round inline-speak"
+                    onClick={() => {
+                      handleReadAloud(
+                        speakLang === 'hi' 
+                          ? category.questions[quizIdx].q_hi 
+                          : category.questions[quizIdx].q
+                      );
+                    }}
+                  >
+                    <Volume2 size={16} />
+                  </button>
+                </div>
               </div>
 
               <div className="quiz-options-list">
@@ -358,6 +539,10 @@ export default function GKExplorer({ addXp, isPro }) {
                     optClass = 'selected';
                   }
 
+                  const optionText = speakLang === 'hi' 
+                    ? category.questions[quizIdx].options_hi[optIdx] 
+                    : option;
+
                   return (
                     <button 
                       key={optIdx}
@@ -366,7 +551,7 @@ export default function GKExplorer({ addXp, isPro }) {
                       onClick={() => handleAnswerClick(optIdx)}
                     >
                       <span className="option-index">{['A', 'B', 'C', 'D'][optIdx]}</span>
-                      <span className="option-text">{option}</span>
+                      <span className="option-text">{optionText}</span>
                       {isAnswered && optIdx === category.questions[quizIdx].correct && <Check size={20} className="status-indicator-icon" />}
                       {isAnswered && selectedOption === optIdx && optIdx !== category.questions[quizIdx].correct && <X size={20} className="status-indicator-icon" />}
                     </button>
@@ -377,62 +562,88 @@ export default function GKExplorer({ addXp, isPro }) {
               {/* Explanation Reveal */}
               {isAnswered && (
                 <div className={`explanation-box animate-float ${selectedOption === category.questions[quizIdx].correct ? 'correct' : 'wrong'}`}>
-                  💡 <strong>Did You Know?</strong> {category.questions[quizIdx].explanation}
+                  💡 <strong>{speakLang === 'hi' ? "क्या आप जानते थे?" : "Did You Know?"}</strong>{' '}
+                  {speakLang === 'hi' ? category.questions[quizIdx].explanation_hi : category.questions[quizIdx].explanation}
+                  
+                  {/* Speaker reading explanation */}
+                  <button 
+                    className="btn-speak-explanation-inline"
+                    onClick={() => {
+                      handleReadAloud(
+                        speakLang === 'hi' 
+                          ? category.questions[quizIdx].explanation_hi 
+                          : category.questions[quizIdx].explanation
+                      );
+                    }}
+                  >
+                    🔊 {speakLang === 'hi' ? "बोलकर बताएं" : "Read Aloud"}
+                  </button>
                 </div>
               )}
 
-              {/* Bottom Actions */}
               {isAnswered && (
                 <button 
                   className="btn-bouncy purple btn-quiz-next animate-pulse"
                   onClick={handleNextQuestion}
                 >
-                  {quizIdx < category.questions.length - 1 ? "Next Question" : "View Results"}
+                  {quizIdx < category.questions.length - 1 
+                    ? (speakLang === 'hi' ? "अगला प्रश्न" : "Next Question") 
+                    : (speakLang === 'hi' ? "परिणाम देखें" : "View Results")}
                 </button>
               )}
             </div>
           ) : quizOver ? (
-            /* QUIZ STATE: GAME OVER */
             <div className="card-premium quiz-result-card fail-state">
               <div className="result-icon-face">😢</div>
-              <h2>Oh No! Out of Lives!</h2>
-              <p>You did a great job trying, but you ran out of hearts. Let's give it another shot!</p>
+              <h2>{speakLang === 'hi' ? "ओह नहीं! सारे दिल खत्म हो गए!" : "Oh No! Out of Lives!"}</h2>
+              <p>
+                {speakLang === 'hi' 
+                  ? "आपने शानदार प्रयास किया, लेकिन सभी दिल खत्म हो गए। चलो फिर से कोशिश करें!"
+                  : "You did a great job trying, but you ran out of hearts. Let's give it another shot!"}
+              </p>
               
               <div className="score-summary-pill">
-                You Scored: {score} Points
+                {speakLang === 'hi' ? `आपका स्कोर: ${score} अंक` : `You Scored: ${score} Points`}
               </div>
               
               <button 
                 className="btn-bouncy pink btn-retry-quiz"
                 onClick={() => startQuiz(category.id)}
               >
-                🔄 Retry Quiz
+                🔄 {speakLang === 'hi' ? "फिर से खेलें" : "Retry Quiz"}
               </button>
             </div>
           ) : (
-            /* QUIZ STATE: SUCCESS EXCELLENT */
             <div className="card-premium quiz-result-card success-state">
               <div className="result-icon-face">🏆</div>
-              <h2>Spectacular! Quiz Completed!</h2>
-              <p>You are a true **GK Genius**! You mastered this entire topic!</p>
+              <h2>
+                {speakLang === 'hi' ? "अद्भुत! क्विज़ पूरा हुआ!" : "Spectacular! Quiz Completed!"}
+              </h2>
+              <p>
+                {speakLang === 'hi' 
+                  ? "आप एक सच्चे जीके जीनियस हैं! आपने इस विषय में महारत हासिल कर ली!"
+                  : "You are a true GK Genius! You mastered this entire topic!"}
+              </p>
               
               <div className="stats-results-row">
                 <div className="stat-result-box">
-                  <span className="label">Points Earned</span>
+                  <span className="label">{speakLang === 'hi' ? "अर्जित अंक" : "Points Earned"}</span>
                   <span className="val">⭐ {score}</span>
                 </div>
                 <div className="stat-result-box">
-                  <span className="label">XP Gained</span>
+                  <span className="label">{speakLang === 'hi' ? "प्राप्त एक्सपी" : "XP Gained"}</span>
                   <span className="val">🚀 +50 XP</span>
                 </div>
                 <div className="stat-result-box">
-                  <span className="label">Remaining Lives</span>
+                  <span className="label">{speakLang === 'hi' ? "बचे हुए दिल" : "Remaining Lives"}</span>
                   <span className="val">💖 {lives}/3</span>
                 </div>
               </div>
               
               <div className="reward-congrats-message">
-                🎉 Congratulations! Level rewards have been added to your explorer dashboard!
+                {speakLang === 'hi' 
+                  ? "🎉 बधाई हो! लेवल पुरस्कार आपके एक्सप्लोरर डैशबोर्ड में जोड़ दिए गए हैं!"
+                  : "🎉 Congratulations! Level rewards have been added to your explorer dashboard!"}
               </div>
 
               <div className="result-actions">
@@ -440,7 +651,7 @@ export default function GKExplorer({ addXp, isPro }) {
                   className="btn-bouncy blue"
                   onClick={() => setActiveView('menu')}
                 >
-                  Back to Topics
+                  {speakLang === 'hi' ? "विषयों पर वापस जाएं" : "Back to Topics"}
                 </button>
                 <button 
                   className="btn-bouncy purple animate-pulse"
@@ -449,14 +660,14 @@ export default function GKExplorer({ addXp, isPro }) {
                       window.location.hash = '#paywall';
                     } else if (category.id === 'animals') {
                       startQuiz('space');
-                    } else if (category.id === 'space') {
-                      startQuiz('geography');
                     } else {
                       setActiveView('menu');
                     }
                   }}
                 >
-                  {category.id === 'animals' && !isPro ? "🚀 Unlock Space Quiz" : "Next Topic →"}
+                  {category.id === 'animals' && !isPro 
+                    ? (speakLang === 'hi' ? "🚀 स्पेस क्विज़ खोलें" : "🚀 Unlock Space Quiz") 
+                    : (speakLang === 'hi' ? "अगला विषय →" : "Next Topic →")}
                 </button>
               </div>
             </div>
