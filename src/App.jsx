@@ -3,6 +3,7 @@ import { Sparkles, Trophy, ShieldCheck, CreditCard, Award, Flame, User, RefreshC
 import GKExplorer from './components/GKExplorer';
 import SubscriptionPaywall from './components/SubscriptionPaywall';
 import ParentDashboard from './components/ParentDashboard';
+import NurseryActivities from './components/NurseryActivities';
 import Login from './components/Login';
 import './App.css';
 
@@ -87,7 +88,7 @@ export default function App() {
     
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['gk', 'parents', 'paywall'].includes(hash)) {
+      if (['gk', 'nursery', 'parents', 'paywall'].includes(hash)) {
         setActivePage(hash);
       }
     };
@@ -257,6 +258,13 @@ export default function App() {
           </button>
 
           <button 
+            className={`nav-btn ${activePage === 'nursery' ? 'active' : ''}`}
+            onClick={() => handlePageChange('nursery')}
+          >
+            🎈 Nursery Playroom
+          </button>
+
+          <button 
             className={`nav-btn ${activePage === 'parents' ? 'active' : ''}`}
             onClick={() => handlePageChange('parents')}
           >
@@ -312,6 +320,9 @@ export default function App() {
       <main className="app-main-content">
         {activePage === 'gk' && (
           <GKExplorer addXp={addXp} isPro={isPro} />
+        )}
+        {activePage === 'nursery' && (
+          <NurseryActivities addXp={addXp} isPro={isPro} />
         )}
         {activePage === 'parents' && (
           <ParentDashboard 
