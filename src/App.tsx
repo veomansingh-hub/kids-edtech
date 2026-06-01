@@ -225,23 +225,97 @@ export default function App() {
             <span className="text-slate-800">MADE WONDERFUL</span>
           </h1>
 
-          {/* Hands holding Bear Main Image Container */}
-          <div className="relative w-full max-w-2xl rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-white -mt-6 group bg-purple-100">
-            <img 
-              src="/hero_hands_bear.png" 
-              alt="Hands and bear toy" 
-              className="w-full object-cover aspect-[4/3] sm:aspect-[16/10] transition duration-700 group-hover:scale-105" 
-            />
-            {/* Grab My Starter Kit Yellow Button overlaid exactly */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
-              <button
-                onClick={() => setCurrentScreen('login')}
-                className="bg-[#fbec5d] hover:bg-[#f6e03f] text-slate-800 font-black text-xs md:text-sm tracking-wide px-6 py-3 rounded-full border-2 border-slate-800 shadow-[3px_3px_0px_#2f3542] flex items-center gap-3 transition transform active:scale-95 whitespace-nowrap"
-              >
-                Grab My Starter Kit — 50% Off 
-                <span className="bg-[#ff6f3c] text-white p-1 rounded-full flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
-              </button>
+          {/* Two-Column split screen container */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full max-w-6xl mt-4 z-10 relative">
+            
+            {/* Left Column: Hands holding Bear */}
+            <div className="lg:col-span-5 relative rounded-[3rem] overflow-hidden shadow-2xl border-[6px] border-white group bg-purple-100 flex flex-col min-h-[350px] lg:min-h-0 justify-between">
+              <img 
+                src="/hero_hands_bear.png" 
+                alt="Hands and bear toy" 
+                className="w-full h-full object-cover transition duration-700 group-hover:scale-105" 
+              />
+              {/* Grab My Starter Kit Yellow Button overlaid exactly */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+                <button
+                  onClick={() => setCurrentScreen('login')}
+                  className="bg-[#fbec5d] hover:bg-[#f6e03f] text-slate-800 font-black text-xs md:text-sm tracking-wide px-6 py-3 rounded-full border-2 border-slate-800 shadow-[3px_3px_0px_#2f3542] flex items-center gap-3 transition transform active:scale-95 whitespace-nowrap"
+                >
+                  Grab My Starter Kit — 50% Off 
+                  <span className="bg-[#ff6f3c] text-white p-1 rounded-full flex items-center justify-center w-5 h-5 text-xs font-bold">↗</span>
+                </button>
+              </div>
             </div>
+
+            {/* Right Column: What We Do */}
+            <div className="lg:col-span-7 flex flex-col text-left">
+              <div className="bg-[#fcfbf9] border-[3px] border-[#2f3542] rounded-[2.5rem] p-6 sm:p-8 flex flex-col gap-6 shadow-[8px_8px_0px_rgba(47,53,66,0.15)] h-full justify-between">
+                
+                <h2 className="text-center font-black text-2xl uppercase tracking-wider text-slate-800 border-b-2 border-dashed border-slate-200 pb-3">What We Do</h2>
+                
+                {/* GK Trivia Quest Row */}
+                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center p-4 bg-white border-2 border-slate-100 rounded-2xl hover:border-amber-300 transition duration-300">
+                  <div className="text-4xl p-2 bg-amber-50 rounded-xl select-none">🧠</div>
+                  <div className="flex-grow w-full">
+                    <div className="flex items-center gap-2 justify-between flex-wrap">
+                      <h3 className="font-black text-slate-800 text-sm sm:text-base uppercase">GK Trivia Quest</h3>
+                      <span className="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Level 1 to 5 Quizzes</span>
+                    </div>
+                    <p className="text-xs text-slate-600 font-body mt-1 leading-relaxed">
+                      Master Indian nicknames, first prime ministers, rocket space operations, Ashoka monuments, and world records through dynamic shuffled quizzes!
+                    </p>
+                    <button 
+                      onClick={() => setCurrentScreen('login')}
+                      className="mt-2 text-xs font-black text-[#ff6f3c] hover:underline flex items-center gap-1"
+                    >
+                      Start Quiz Quest ↗
+                    </button>
+                  </div>
+                </div>
+
+                {/* Nursery Worksheets Row */}
+                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center p-4 bg-white border-2 border-slate-100 rounded-2xl hover:border-pink-300 transition duration-300">
+                  <div className="text-4xl p-2 bg-pink-50 rounded-xl select-none">🎈</div>
+                  <div className="flex-grow w-full">
+                    <div className="flex items-center gap-2 justify-between flex-wrap">
+                      <h3 className="font-black text-slate-800 text-sm sm:text-base uppercase">Nursery Worksheets</h3>
+                      <span className="bg-pink-100 text-pink-800 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">15 Activity Worksheets</span>
+                    </div>
+                    <p className="text-xs text-slate-600 font-body mt-1 leading-relaxed">
+                      Trace dotted shapes, match colors, color outline drawings, separate odd one out, and print direct A4 worksheets for offline learning!
+                    </p>
+                    <button 
+                      onClick={() => setCurrentScreen('login')}
+                      className="mt-2 text-xs font-black text-[#ff6f3c] hover:underline flex items-center gap-1"
+                    >
+                      Start Worksheets ↗
+                    </button>
+                  </div>
+                </div>
+
+                {/* Parents Hub Row */}
+                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center p-4 bg-white border-2 border-slate-100 rounded-2xl hover:border-indigo-300 transition duration-300">
+                  <div className="text-4xl p-2 bg-indigo-50 rounded-xl select-none">📊</div>
+                  <div className="flex-grow w-full">
+                    <div className="flex items-center gap-2 justify-between flex-wrap">
+                      <h3 className="font-black text-slate-800 text-sm sm:text-base uppercase">Parents Hub</h3>
+                      <span className="bg-indigo-100 text-indigo-800 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Unlocked Levels & Stats</span>
+                    </div>
+                    <p className="text-xs text-slate-600 font-body mt-1 leading-relaxed">
+                      Review completed quizzes, manual unlock triggers for paid levels, export logs, and configure custom lessons for your little ones!
+                    </p>
+                    <button 
+                      onClick={() => setCurrentScreen('login')}
+                      className="mt-2 text-xs font-black text-[#ff6f3c] hover:underline flex items-center gap-1"
+                    >
+                      Open Parents Portal ↗
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
           </div>
 
           {/* Cloud Scalloped Card Container resembling 'Shop Vitamins' reference */}
